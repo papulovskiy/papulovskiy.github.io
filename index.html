@@ -9,41 +9,7 @@
             font-size: 12pt;
         }
     </style>
-    <script>
-        /* timeline */
-        var experience = [
-            {
-                from: new Date(2003, 11, 1),
-                to: new Date(2005, 2, 1),
-                name: "1000000.Ru",
-                title: "Software Developer"
-            },
-            {
-                from: new Date(2007, 6, 1),
-                to: new Date(2010, 3, 1),
-                name: "Sibirtelecom",
-                title: "Engineer"
-            },
-            {
-                from: new Date(2010, 3, 1),
-                to: new Date(2011, 11, 1),
-                name: "DoubleGIS",
-                title: "Software Engineer, Team Lead"
-            },
-            {
-                from: new Date(2011, 11, 1),
-                to: new Date(2012, 11, 1),
-                name: "Mail.Ru Group",
-                title: "Software Engineer"
-            },
-            {
-                from: new Date(2012, 11, 1),
-                to: new Date(),
-                name: "Eruditor Group",
-                title: "Software Engineer"
-            }
-        ];
-    </script>
+    <script src="js/d3.v3.min.js"></script>
 </head>
 <body>
 <div class="slide">
@@ -64,9 +30,9 @@
 </div>
 <div class="slide">
     <h2>Experience</h2>
-<!--
-    Timeline like Resumup
--->
+    <!--
+        Timeline like Resumup
+    -->
     <div class="timeline">
 
     </div>
@@ -191,5 +157,177 @@
     <a href="http://facebook.com/papulovskiy">Facebook</a>
     <a href="">0</a>
 </div>
+<script>
+    /* timeline */
+    var experience = [
+        {
+            from: new Date(2003, 11, 1),
+            to: new Date(2005, 2, 1),
+            name: "1000000.Ru",
+            title: "Software Developer",
+            side: 0,
+            color: "#aaffee"
+        },
+        {
+            from: new Date(2005, 2, 1),
+            to: new Date(2007, 6, 1),
+            name: "Freelance",
+            title: "Software Developer",
+            side: 0,
+            color: "#eeaaee"
+        },
+        {
+            from: new Date(2007, 6, 1),
+            to: new Date(2010, 3, 1),
+            name: "Sibirtelecom",
+            title: "Engineer",
+            side: 0,
+            color: "#aaeeff"
+        },
+        {
+            from: new Date(2010, 3, 1),
+            to: new Date(2011, 11, 1),
+            name: "DoubleGIS",
+            title: "Software Engineer, Team Lead",
+            side: 0,
+            color: "#eeffee"
+        },
+        {
+            from: new Date(2011, 11, 1),
+            to: new Date(2012, 11, 1),
+            name: "Mail.Ru Group",
+            title: "Software Engineer",
+            side: 0,
+            color: "#eeffaa"
+        },
+        {
+            from: new Date(2012, 11, 1),
+            to: new Date(),
+            name: "Eruditor Group",
+            title: "Software Engineer",
+            side: 0,
+            color: "#eeaaaa"
+        },
+        {
+            from: new Date(2006, 11, 1),
+            to: new Date(),
+            name: "Collaboration with Nikolay Guryanov",
+            title: "Software Engineer",
+            side: 1,
+            color: "#eeeeee"
+        }
+    ];
+
+    function drawExperience() {
+        var min = null;
+        var max = null;
+        for (var i in experience) {
+            if (experience[i].from.getTime() < min || min == null) {
+                min = experience[i].from.getTime();
+            }
+            if (experience[i].to.getTime() > max || max == null) {
+                max = experience[i].to.getTime();
+            }
+        }
+        console.log(min,max);
+        var years = [];
+        for (var i = 2004; i < 2014; i++) {
+            years.push(new Date(i, 1, 1));
+        }
+        var width = 800;
+        var height = 300;
+        var lineHeight = 50;
+        var trapeze = 5;
+        var xoffset = 30;
+        var xdepth = (width - xoffset*2) / (1.0 * (max-min));
+        var d3timeline = d3.select(".timeline").append('svg').attr("width", width).attr("height", height).style('border', '1px solid black');
+        var d3jobs = d3timeline.selectAll(".period").data(experience).enter().append('polygon')
+                .attr("class", "period")
+                .attr("points", function (d, i) {
+                    var x10 = (d.from.getTime() - min) * xdepth + xoffset;
+                    var x11 = x10 + trapeze;
+                    var x20 = (d.to.getTime() - min) * xdepth + xoffset;
+                    var x21 = x20 - trapeze;
+                    var y1 = height/2 - lineHeight;
+                    var y2 = height/2;
+                    var y3 = height/2 + lineHeight;
+                    var top, bottom, topleft, bottomleft, topright, bottomright;
+                    if (d.side == 0) {
+                        top = y1;
+                        bottom = y2;
+                        topleft = x11;
+                        bottomleft = x10;
+                        topright = x21;
+                        bottomright = x20;
+                    } else {
+                        top = y2;
+                        bottom = y3;
+                        topleft = x10;
+                        bottomleft = x11;
+                        topright = x20;
+                        bottomright = x21;
+                    }
+                    //console.log(top, bottom, topleft, topright, bottomleft, bottomright);
+                    return topleft + ',' + top
+                            + ' ' + topright + ',' + top
+                            + ' ' + bottomright + ',' + bottom
+                            + ' ' + bottomleft + ',' + bottom;
+                    //+ ' ' + topright + ',' + top
+                    //+ ' ' + topright + ',' + top
+
+                })
+                .attr("style", function (d, i) {
+                    return 'fill:' + d.color + ';fill-opacity:0.7;stroke:' + d.color + ';stroke-opacity:0.9;stroke-width:1.5';
+                })
+                .attr("shape-rendering", "geometricPrecision");
+        var d3jobs = d3timeline.selectAll(".periodlabel").data(experience).enter().append('text')
+                .attr("class", "periodlabel")
+                .text(function (d, i) {
+                    return d.name;
+                })
+                .attr("text-anchor", "middle")
+                .attr("x", function (d, i) {
+                    return (d.from.getTime() - min + (d.to.getTime() - d.from.getTime()) / 2) * xdepth + xoffset;
+                })
+                .attr("y", function (d, i) {
+                    if (d.side == 0) {
+                        return height/2 - lineHeight - 10;
+                    } else {
+                        return height/2 + lineHeight + 20;
+                    }
+                })
+                .attr("style", "font-size: 12px;font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif");
+        var d3ticks = d3timeline.selectAll(".ticks").data(years).enter().append('line')
+                .attr("x1", function (d, i) {
+                    return (d.getTime() - min) * xdepth + xoffset;
+                })
+                .attr("x2", function (d, i) {
+                    return (d.getTime() - min) * xdepth + xoffset;
+                })
+                .attr("y1", height/2 - 5)
+                .attr("y2", height/2 + 5)
+                .attr("style", "stroke:rgb(0,0,0);stroke-width:2")
+        var d3tlabels = d3timeline.selectAll(".years").data(years).enter()
+                .append('text')
+                .text(function (d, i) {
+                    return d.getFullYear();
+                })
+                .attr("x", function (d, i) {
+                    return (d.getTime() - min) * xdepth + xoffset - 11;
+                })
+                .attr("y", height/2 + 15)
+                .attr("style", "font-size: 10px;");
+
+        d3timeline.append('line')
+                .attr("x1", xoffset/2)
+                .attr("x2", width - xoffset/2)
+                .attr("y1", height/2)
+                .attr("y2", height/2)
+                .attr("style", "stroke:rgb(0,0,0);stroke-width:2");
+    }
+
+    drawExperience();
+</script>
+
 </body>
 </html>
