@@ -3,34 +3,165 @@
       xmlns="http://www.w3.org/1999/html">
 <head>
     <title></title>
+    <style>
+        body {
+            font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            font-size: 12pt;
+        }
+    </style>
+    <script>
+        /* timeline */
+        var experience = [
+            {
+                from: new Date(2003, 11, 1),
+                to: new Date(2005, 2, 1),
+                name: "1000000.Ru",
+                title: "Software Developer"
+            },
+            {
+                from: new Date(2007, 6, 1),
+                to: new Date(2010, 3, 1),
+                name: "Sibirtelecom",
+                title: "Engineer"
+            },
+            {
+                from: new Date(2010, 3, 1),
+                to: new Date(2011, 11, 1),
+                name: "DoubleGIS",
+                title: "Software Engineer, Team Lead"
+            },
+            {
+                from: new Date(2011, 11, 1),
+                to: new Date(2012, 11, 1),
+                name: "Mail.Ru Group",
+                title: "Software Engineer"
+            },
+            {
+                from: new Date(2012, 11, 1),
+                to: new Date(),
+                name: "Eruditor Group",
+                title: "Software Engineer"
+            }
+        ];
+    </script>
 </head>
 <body>
-<h2>Summary</h2>
-<h2>Experience</h2>
+<div class="slide">
+    <h2>Summary</h2>
+    <div>
+        A result oriented, creative thinking, seasoned Software Engineer with about 10 years of professional experience in building different web services, from blog service to service that configures ISP equipment.
+
+        My passions are:
+        • maps and putting data on the maps, started from attempt to make a local webservice with positions of public transport vehicles in Novosibirsk
+        • mobile technologies, because smartphone is a thing that is always with you
+        • simple and useful online services
+
+        Specialities:
+        • development of web services with with PHP, PostgreSQL, MySQL, MongoDB, Redis
+        • development of online map service with Google Maps, Leaflet, TileMill, OpenStreetMap
+        • development of mobile applications for Android
+    </div>
+</div>
+<div class="slide">
+    <h2>Experience</h2>
+<!--
+    Timeline like Resumup
+-->
+    <div class="timeline">
+
+    </div>
+</div>
 <ul>
+    <li>
+        <div class="term">November 2006 &mdash; Current</div>
+        <div class="company">Collaboration with Nikolay Guryanov</div>
+        <div class="position">Software Engineer</div>
+        <div class="description">
+            Mainly data visualization projects
+
+            Development of server side parts of projects with PHP, Perl, MySQL, PostgreSQL, MongoDB, nginx.
+            Development of client side parts of web applications with Javascript, jQuery, Leaflet, D3.js, Google Maps API.
+        </div>
+        <div class="projects">
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </li>
     <li>
         <div class="term">November 2012 &mdash; Current</div>
         <div class="company"><a href="http://eruditor-group.com/">Eruditor Group</a></div>
         <div class="position">Software Engineer</div>
-        <div class="description"></div>
+        <div class="description">
+            Duties and responsibilities:
+            • development of platform for company's websites with PHP, Yii, PostgreSQL, Asterisk AGI, PHPUnit
+            • development of intranet services with Nodejs, CoffeeScript, Express, Mocha
+        </div>
+        <div class="projects">
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
     </li>
     <li>
         <div class="term">November 2011 &mdash; November 2012</div>
         <div class="company"><a href="http://corp.mail.ru/en">Mail.Ru</a></div>
         <div class="position">Software Engineer</div>
-        <div class="description"></div>
+        <div class="description">
+            Mail.Ru Group is the largest Internet company in the Russian-speaking world and the leading Internet company in Russia.
+
+            Duties and responsibilities:
+            • development of microblogging service http://futubra.com (now closed)
+            • development of photo sharing mobile application for families http://familystre.am (now closed)
+
+            Main achievement: development and launch of Futubra project.
+        </div>
+        <div class="projects">
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
     </li>
     <li>
         <div class="term">March 2010 &mdash; November 2011</div>
         <div class="company"><a href="http://www.2gis.ru/en/">DoubleGIS</a></div>
         <div class="position">Software Engineer, Team Leader</div>
-        <div class="description"></div>
+        <div class="description">2GIS is the biggest local search service in Russia with more than 16 million of users.
+
+            Duties and responsibilities:
+            • development of online map service http://maps.2gis.ru
+            • development of local business listing API http://api.2gis.ru
+            • development of local business review service http://flamp.ru
+
+            Main achievement: development and public launch of Flamp project.</div>
+        <div class="projects">
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
     </li>
     <li>
         <div class="term">June 2007 &mdash; March 2010</div>
         <div class="company"><a href="http://www.rostelecom.ru/en/about/info/">Sibirtelecom</a></div>
         <div class="position">Engineer</div>
-        <div class="description"></div>
+        <div class="description">Sibirtelecom is a Siberia's largest telecommunications company with a wide range of services: from local fixed-line voice service to triple play via passive optical network. Now it is a part of Rostelecom.
+
+            Duties and responsibilities:
+            • development of issue-tracker
+            • development of network inventory tool
+            • shared hosting system administration
+            • basic network configuring for hosting and colocation services
+
+            Tools and technologies: Linux, Apache, MySQL, PostgreSQL, nginx, BIND, Plesk, PHP, SNMP, Subversion, Squid.
+            Networking: Cisco, Alcatel, Huawei, D-Link.</div>
     </li>
     <li>
         <div class="term">November 2003 &mdash; February 2005</div>
@@ -40,10 +171,24 @@
     </li>
 </ul>
 <h2>Education</h2>
+<h2>Honors</h2>
+<div class="description">
+    Data Journalism Award in "Data Visualisation Local" category
+    Global Editors Network
+    June 2012
+    Given for "Pedestrian Crashes in Novosibirsk in 2011".
+
+    Level 3
+    Project Euler
+    June 2013
+    Project Euler is a series of challenging mathematical/computer programming problems that will require more than just mathematical insights to solve. Although mathematics will help you arrive at elegant and efficient methods, the use of a computer and programming skills will be required to solve most problems.
+
+    http://projecteuler.net/profile/nullwaver.png
+</div>
 <div class="links">
-    <a href="">LinkedIn</a>
-    <a href="">Twitter</a>
-    <a href="">Facebook</a>
+    <a href="http://www.linkedin.com/in/papulovskiy">LinkedIn</a>
+    <a href="http://twitter.com/papulovskiy">Twitter</a>
+    <a href="http://facebook.com/papulovskiy">Facebook</a>
     <a href="">0</a>
 </div>
 </body>
