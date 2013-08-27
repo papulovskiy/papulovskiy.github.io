@@ -9,7 +9,7 @@
             font-size: 11pt;
             color: #000;
             background-color: #fff;
-            line-height: 1.5;
+            /*line-height: 1.5;*/
         }
 
         header h1 {
@@ -19,6 +19,15 @@
         section h3 {
             font-size: 16pt;
             margin-bottom: 0;
+        }
+
+        section {
+            line-height: 0;
+            padding-top: 10pt;
+        }
+
+        article {
+            line-height: 1.5;
         }
 
         article p {
@@ -36,9 +45,9 @@
         }
 
         article header h4 {
-            margin-top: 6pt;
             margin-bottom: 0;
             font-size: 12pt;
+            /*line-height: 1.2pt;*/
         }
 
         article header a {
@@ -72,7 +81,7 @@
 
     <div class="contacts">
         Phone: +7 913 949 7351<br/>
-        Email: leha@papulovskiy.ru
+        Email: <a href="mailto:leha@papulovskiy.ru">leha@papulovskiy.ru</a>
     </div>
 </header>
 <section>
@@ -223,9 +232,26 @@
 </section>
 <section>
     <h3>Education</h3>
+    <article>
+        <header>
+            <h4>Novosibirsk State Technical University</h4>
+        </header>
+        <div class="period">December 2010</div>
+        <div class="position">Engineer's degree, Industrial Safety Technology/Technician</div>
+        <div class="description"></div>
+    </article>
 </section>
 <section>
     <h3>Honors and Awards</h3>
+    <article>
+        <header>
+            <h4>Level 3</h4>
+            <a href="http://projecteuler.net/profile/nullwaver.png">projecteuler.net/profile/nullwaver.png</a>
+        </header>
+        <div class="period">June 2013</div>
+        <div class="position">Project Euler</div>
+        <div class="description">Project Euler is a series of challenging mathematical/computer programming problems that will require more than just mathematical insights to solve. Although mathematics will help you arrive at elegant and efficient methods, the use of a computer and programming skills will be required to solve most problems.</div>
+    </article>
     <article>
         <header>
             <h4>Data Journalism Award in "Data Visualisation Local" category</h4>
