@@ -5,29 +5,43 @@
     <title></title>
     <style>
         body {
-            font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-            font-size: 11pt;
+            font-family: Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 16px;
             color: #000;
             background-color: #fff;
-            /*line-height: 1.5;*/
+            margin: 40px;
         }
 
         header h1 {
-            font-size: 20pt;
+            font-size: 56px;
+            margin: 0;
+            font-weight: normal;
+        }
+        header h2 {
+            font-size: 24px;
+            margin: 0 0 8px 0;
+            font-weight: normal;
+        }
+
+
+        .contacts {
+            margin: 0 0 16px 0;
         }
 
         section h3 {
-            font-size: 16pt;
-            margin-bottom: 0;
+            font-size: 24px;
+            margin: 0 0 8px 0;
+            font-weight: normal;
         }
 
         section {
-            line-height: 0;
-            padding-top: 10pt;
+            /*line-height: 0;*/
+            padding-bottom: 16px;
         }
 
         article {
-            line-height: 1.5;
+            line-height: 24px;
+            margin: 16px 0 0px 0;
         }
 
         article p {
@@ -40,18 +54,19 @@
             margin: 0;
         }
 
-        section h3 {
-            margin-bottom: 0;
+        article a {
+            text-decoration: none;
+            color: #000;
         }
 
-        article header h4 {
-            margin-bottom: 0;
-            font-size: 12pt;
-            /*line-height: 1.2pt;*/
+        article a:hover {
+            text-decoration: underline;
         }
 
-        article header a {
-            font-size: 10pt;
+        article h4 {
+            font-size: 16px;
+            margin: 0 0 0px 0;
+            padding: 0;
         }
 
         article h5 {
@@ -60,7 +75,7 @@
         }
 
         article .period {
-            margin-top: 6pt;
+            margin: 0 0 8px 0;
         }
 
         article .position {
@@ -78,9 +93,11 @@
 </head>
 <body>
 <header>
-    <h1>Aleksei Papulovskii</h1>
+    <h1>Alexey Papulovskiy</h1>
+    <h2>Software Engineer</h2>
 
     <div class="contacts">
+        Amsterdam, Netherlands<br/>
         Phone: +31 6 151 37238<br/>
         Email: <a href="mailto:a@c17.nl">a@c17.nl</a>
     </div>
@@ -88,24 +105,15 @@
 <section>
     <h3>Summary</h3>
     <article>
-        <p>A result-oriented, creative thinking, seasoned Software Engineer with about 10 years of professional
-            experience in building different web services: from microblogging service to ISP equipment configuring software.</p>
+        <p>A result-oriented, creative thinking, seasoned and curious Software Engineer with over 10 years of professional experience in building different web services: from microblogging service to ISP equipment configuring software and Cisco voice systems integration.</p>
 
-        <p>My passions are:
-        <ul>
-            <li>maps and putting data on the maps started from the attempt to make a local web service with positions of
-                public transport vehicles in Novosibirsk
-            </li>
-            <li>simple and useful online services</li>
-            <li>mobile applications and technologies</li>
-        </ul>
+        <p>I like to build simple and useful online services that make actual sense for people, to visualize data on maps, because some data, even logs of distributed systems, is much more understandable when represented visually, not just numbers.
         </p>
 
         <p>Specialities:
         <ul>
             <li>web services development with Perl, PHP, JavaScript, PostgreSQL, MongoDB, Redis, MySQL</li>
-            <li>development of online map services with Google Maps, Leaflet, PostGIS, TileMill, OpenStreetMap</li>
-            <li>Android mobile applications development</li>
+            <li>development of online map services with Leaflet, Google Maps, PostGIS, TileMill, OpenStreetMap</li>
 	    <li>Chrome extensions development</li>
         </ul>
 
@@ -115,59 +123,29 @@
 <section>
     <h3>Experience</h3>
     <article>
-        <header>
-            <h4>Booking.com</h4>
-            <a href="http://booking.com">booking.com</a>
-        </header>
+        <h4>Developer at <a href="http://booking.com">Booking.com</a></h4>
         <div class="period">November 2013 - Present</div>
-        <div class="position">Developer</div>
         <div class="duties">
-		Booking.com - the market leading online hotel reservation service.
-		<h5>Duties and responsibilities</h5>
+		Working within the team mostly on Customer Service tools for the market leading online hotel reservation service we have developed, launched and maintained:
 		<ul>
-			<li>Development of internal web services using Perl, MySQL, jQuery, Bootstrap</li>
-			<li>Development of Chrome extension for Cisco Finesse with Javascript, jabberwerx</li>
-			<li>Development of async XMPP daemon with AnyEvent::XMPP</li> 
+			<li>Agent Desktop build with Perl, MySQL, JavaScript</li>
+			<li>Chrome extension that saves up to three seconds per call for Cisco Finesse with Javascript, riot.js, jabberwerx</li>
 		</ul>
+        We've built integration of Cisco UCCE Precision Routing, Cisco Finesse with AnyEvent::XMPP and other parts of Cisco's voice systems.
 	</div>
     </article>
     <article>
-        <header>
-            <h4>Eruditor Group</h4>
-            <a href="http://eruditor-group.com/">eruditor-group.com</a>
-        </header>
+        <h4>Software Engineer at <a href="http://eruditor-group.com/">Eruditor Group</a></h4>
         <div class="period">November 2012 - August 2013</div>
-        <div class="position">Software Engineer</div>
         <div class="duties">
-            The Eruditor Group - a startup that runs a number of two-sided marketplaces in Russia, Ukraine and Kazakhstan.
-            <h5>Duties and responsibilities</h5>
-            <ul>
-                <li>development of platform for company's websites with PHP, Yii, PostgreSQL, Asterisk AGI, PHPUnit</li>
-                <li>development of intranet services with Node, CoffeeScript, Express, Mocha</li>
-            </ul>
-        </div>
-        <div class="projects">
-            <h5>Projects</h5>
-            <ul>
-                <li><a href="http://infodoctor.ru">Infodoctor.ru</a> - an online medical care local search and scheduling service</li>
-                <li><a href="http://krace.ru">Krace.ru</a> - a local search service of beauty industry specialists</li>
-            </ul>
+            I was involved to a development of a completely new websites for a startup that runs a number of two-sided marketplaces in Russia, Ukraine and Kazakhstan, we successfully launched <a href="http://infodoctor.ru">an online medical care</a> local search and scheduling service and a local search service of <a href="http://krace.ru">beauty industry specialists</a> that were built with PHP, Yii, PostgreSQL, PHPUnit and integrated phone services based on Asterisk and internal services like image processing built with Node.js/CoffeeScript.
         </div>
     </article>
     <article>
-        <header>
-            <h4>Mail.Ru Group</h4>
-            <a href="http://corp.mail.ru/en">corp.mail.ru/en</a>
-        </header>
+        <h4>Software Engineer at <a href="http://corp.mail.ru/en">Mail.Ru Group</a></h4>
         <div class="period">November 2011 - November 2012</div>
-        <div class="position">Software Engineer</div>
         <div class="duties">
-            Mail.Ru Group is the largest Internet company in the Russian-speaking world and the leading Internet company in Russia.
-            <h5>Duties and responsibilities</h5>
-            <ul>
-                <li>development of multimedia microblogging service</li>
-                <li>development of photo sharing mobile application for Android</li>
-            </ul>
+            Very interesting experience of developing and launching new startup-like products for the largest Internet company in the Russian-speaking world. Unfortunately all projects are now unavailable, but I gained the experience of building a microblogging service (Twitter clone) with PHP, MongoDB, Redis, a family photo-sharing app for Android with Java and backend based on Node.js.
         </div>
         <div class="projects">
             <h5>Projects</h5>
@@ -178,152 +156,29 @@
         </div>
     </article>
     <article>
-        <header>
-            <h4>2GIS</h4>
-            <a href="http://www.2gis.ru/en/">2gis.ru/en</a>
-        </header>
+        <h4>Software Engineer, Team Lead at <a href="http://www.2gis.ru/en/">2GIS</a></h4>
         <div class="period">March 2010 - November 2012</div>
-        <div class="position">Software Engineer, Team Lead</div>
         <div class="duties">
-            2GIS is the biggest local search service in Russia with more than 16 million of users.
-            <h5>Duties and responsibilities</h5>
-            <ul>
-                <li>development of online map service, local business listing API, local business review service</li>
-                <li>leading a team of five developers to develop local business review website</li>
-            </ul>
-        </div>
-        <div class="projects">
-            <ul>
-                <li><a href="http://flamp.ru">Flamp.ru</a> - a social local review site</li>
-                <li><a href="http://api.2gis.ru">Api.2gis.ru</a> - a high loaded REST API of local business listing</li>
-                <li><a href="http://maps.2gis.ru">Maps.2gis.ru</a> - online maps</li>
-            </ul>
+            I led the team of developers on a <a href="http://flamp.ru">local business reviews website</a> (Yelp-like). Actually we failed on the first day of launch because of incorrect settings of PgBouncer.<br/>
+            Also, I was involved in the development of a highly loaded <a href="http://api.2gis.ru">REST API of a local business</a> listing and <a href="http://maps.2gis.ru">online maps</a> using PHP, PostgreSQL, PostGIS, Redis, RabbitMQ, OpenLayers.
         </div>
     </article>
     <article>
         <header>
-            <h4>Sibirtelecom</h4>
-            <a href="http://www.rostelecom.ru/en/about/info/">rostelecom.ru/en</a>
+            <h4>Engineer at 1000000.ru, z-auto.ru, Sibirtelecom</h4>
         </header>
-        <div class="period">June 2007 - February 2010</div>
-        <div class="position">Engineer</div>
+        <div class="period">November 2003 - February 2010</div>
         <div class="duties">
-            Sibirtelecom was a Siberia's largest telecommunications company with a wide range of services: from local fixed-line voice service to triple play via a passive optical network. Now it is a part of Rostelecom.
-            <h5>Duties and responsibilities</h5>
-            <ul>
-                <li>development of issue-tracker</li>
-                <li>development of network inventory tool</li>
-                <li>shared hosting system administration</li>
-                <li>basic network configuring for hosting and colocation services</li>
-            </ul>
+            Developed multiple e-commerce websites for the automotive industry, implemented Virtuozzo containers for hosting services, automated network equipment configuration and monitoring.
         </div>
-    </article>
-    <article>
-        <header>
-            <h4>Z-auto</h4>
-            <a href="http://z-auto.ru/">z-auto.ru</a>
-        </header>
-        <div class="period">February 2005 - June 2007</div>
-        <div class="position">Software Developer</div>
-        <div class="duties">
-            <ul>
-                <li>development of an automotive spare parts online shop</li>
-                <li>servers operation and maintenance</li>
-            </ul>
-        </div>
-    </article>
-    <article>
-        <header>
-            <h4>1000000.ru</h4>
-            <a href="http://1000000.ru/">1000000.ru</a>
-        </header>
-        <div class="period">November 2003 - February 2005</div>
-        <div class="position">Software Developer</div>
-        <div class="duties">
-            <ul>
-                <li>development of a car parts online shop</li>
-                <li>servers operation and maintenance</li>
-            </ul>
-        </div>
-    </article>
-</section>
-<section>
-    <h3>Education</h3>
-    <article>
-        <header>
-            <h4>Novosibirsk State Technical University</h4>
-        </header>
-        <div class="period">December 2010</div>
-        <div class="position">Engineer's degree, Industrial Safety Technology/Technician</div>
-        <div class="description"></div>
-    </article>
-</section>
-<section>
-    <h3>Honors and Awards</h3>
-    <article>
-        <header>
-            <h4>Data Journalism Award in "Data Visualisation Local" category</h4>
-            <a href="http://www.globaleditorsnetwork.org/dja/entries2012/">www.globaleditorsnetwork.org/dja/entries2012</a>
-        </header>
-        <div class="period">June 2012</div>
-        <div class="position">Global Editors Network</div>
-        <div class="description">Given for "Pedestrian Crashes in Novosibirsk in 2011".</div>
     </article>
 </section>
 <section>
     <h3>Projects</h3>
     <article>
-        <header>
-            <h4>Moscow Real Estate Prices Map</h4>
-            <a href="http://stat.cian.ru/en/">stat.cian.ru/en</a>
-        </header>
-        <div class="period">September 2013</div>
-        <div class="position">Author, Software Developer</div>
-        <div class="duties">
-            Interactive map shows how the real estate prices in Moscow have changed over the last 3 years.
-        </div>
-    </article>
-    <article>
-        <header>
-            <h4>Contrailz</h4>
-            <a href="http://contrailz.com/">contrailz.com</a>
-        </header>
-        <div class="period">June 2013</div>
-        <div class="position">Author, Software Developer</div>
-        <div class="duties">
-            Flight paths around the world.
-        </div>
-    </article>
-    <article>
-        <header>
-            <h4>Byron!</h4>
-            <a href="https://chrome.google.com/webstore/detail/%D0%B1%D0%B0%D0%B9%D1%80%D0%BE%D0%BD/cjbgmcopbimoejblnbhpeopfgpibbjam"></a>
-        </header>
-        <div class="period">February 2013</div>
-        <div class="position">Software Developer</div>
-        <div class="duties">
-            A simple and fun Google Chrome extension that changes headings on the <a href="http://ngs.ru">NGS.ru</a> news website.
-        </div>
-    </article>
-    <article>
-        <header>
-            <h4>Pedestrian Crashes in Novosibirsk in 2011</h4>
-            <a href="http://nick123.ru/dtp2011">nick123.ru/dtp2011</a>
-        </header>
-        <div class="period">February 2012</div>
-        <div class="position">Software Developer</div>
-        <div class="duties">
-            Interactive map of all the road crashes involving pedestrians in Novosibirsk, Russia in 2011. Accidents can be explored by each month or for the whole year.        </div>
-    </article>
-    <article>
-        <header>
-            <h4>Nullwave</h4>
-            <a href="http://plushev.com/2007/11/12/1333/">plushev.com/2007/11/12/1333/</a> (in Russian)
-        </header>
-        <div class="period">November 2006</div>
-        <div class="position">Author, Software Developer</div>
-        <div class="duties">
-            Social internet radio. Audio streams generated from user uploaded tracks. About 3 million listeners since the start, about 1TB of data transfer daily.        </div>
+            <a href="http://contrailz.com/">contrailz.com</a> &mdash; Visualized Flight Paths of the World<br/>
+            <a href="http://stat.cian.ru/en/">stat.cian.ru/en</a> &mdash; Moscow Real Estate Prices Map<br/>
+            <a href="http://nick123.ru/dtp2011">nick123.ru/dtp2011</a> &mdash; Pedestrian Crashes in Novosibirsk in 2011 (Data Journalism Award 2012)
     </article>
 </section>
 </body>
