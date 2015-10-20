@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Pixelmatch demo</title>
+    <style>
+        div {
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            font-family: Lato, "Helvetica Neue",Helvetica,Arial,sans-serif;
+            font-size: 56px;
+            font-weight: normal;
+            line-height: 64px;
+        }
+        .samples img {
+            max-width: 300px;
+            margin: 50px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Pixelmatch demo</h1>
+    </div>
+    <div class="samples">
+        <!--
+            Images were downloaded from
+                https://www.google.com/images/srpr/logo10w.png
+                https://www.google.com/images/srpr/logo11w.png
+            to avoid cross-origin image read by canvas
+        -->
+        <img id="image1" src="logo10w.png" />
+        <img id="image2" src="logo11w.png" />
+    </div>
+    <div class="button">
+        <button id="compare">Compare</button>
+    </div>
+    <div class="result">
+        <canvas id="result"></canvas>
+    </div>
+<script src="pixelmatch.js"></script>
+<script>
+    var button = document.getElementById("compare"),
+        image1 = document.getElementById("image1"),
+        image2 = document.getElementById("image2"),
+        result = document.getElementById("result");
+
+    button.addEventListener('click', function() {
+        var width  = image1.naturalWidth,
+            height = image1.naturalHeight;
+
+        var canvas1 = document.createElement("canvas");
+        canvas1.width = width; canvas1.height = height;
+        var ctx1 = canvas1.getContext("2d");
+        ctx1.drawImage(image1, 0, 0);
+
+        var canvas2 = document.createElement("canvas");
+        canvas2.width = width; canvas2.height = height;
+        var ctx2 = canvas2.getContext("2d");
+        ctx2.drawImage(image2, 0, 0);
+
+        result.width = width; result.height = height;
+        var ctx = result.getContext("2d");
+
+        var img1 = ctx1.getImageData(0, 0, width, height),
+            img2 = ctx2.getImageData(0, 0, width, height),
+            diff = ctx.createImageData(width, height);
+
+        pixelmatch(img1.data, img2.data, diff.data, width, height, {threshold: 0.1});
+
+        ctx.putImageData(diff, 0, 0);
+    });
+</script>
+</body>
+</html>
