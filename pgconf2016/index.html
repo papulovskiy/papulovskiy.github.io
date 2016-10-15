@@ -6,36 +6,132 @@
     <style>
 
 
-      h1, h2, h3 {
-        font-weight: normal;
-      }
+        h1, h2, h3 {
+            font-weight: normal;
+        }
 
+
+        .footnote {
+            position: absolute;
+            bottom: 3em;
+        }
     </style>
   </head>
   <body>
     <textarea id="source">
-
+name: Title
 class: center, middle
 
 # A billion rows pet-project on a desktop hardware
+#### Alexey Papulovskiy
 
 PostgreSQL Conference Europe
 
-Tallinn, Estonia
+.footnote[Tallinn, Estonia 03.11.2016]
 
-03.11.2016
-
----
-
-# Agenda
-
-1. Introduction
-2. Deep-dive
-3. ...
+.footnote[]
 
 ---
 
-# Introduction
+# About me
+
+Developer at Booking.com
+
+---
+
+# reverse.report
+
+8.8.8.8 → 8.8.8.8.in-addr.arpa → google-public-dns-a.google.com.
+
+IP v4
+
+2<sup>32</sup> = 4 294 967 296 possible IP addresses
+
+3 702 258 432 assigned IP addresses TODO: recheck
+
+
+---
+
+# Hardware
+
+TODO: refine
+
+CPU: 4 cores (8 threads) @4GHz with 8MB L3 cache
+Memory: 64GB non-ECC DDR4
+Storage:
+ 512GB NVMe SSD
+ 1TB SATA SSD
+ 4TB Spinning disk
+500mbps internet connection
+---
+
+# SSD matters
+
+TODO: IOPS diagram, comparison with clouds
+
+---
+
+# Database
+
+9.5/9.6
+
+TODO: postgresql.conf settings
+
+---
+
+# Data collection
+
+python script
+home router (30kpps)
+DDoS detector (5kpps)
+
+---
+
+# Database schema
+
+---
+
+# Updates
+
+Consistency
+Unlogged tables
+Update rate
+
+---
+
+# Data types
+
+
+---
+
+# Reads
+varchar_ops
+---
+
+# Pain
+## Disc space
+inet vs int
+varchar(126)
+
+---
+
+# Pain
+## Vacuum
+
+---
+
+# Updates
+TODO: do not update values that not changed
+TODO: description of rows version, indexing and WAL
+---
+
+# Reads
+TODO: sort in query
+TODO: recursive queries
+
+---
+
+# Nice features
 
     </textarea>
     <script src="assets/remark-latest.min.js">
