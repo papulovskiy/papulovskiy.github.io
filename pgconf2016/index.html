@@ -15,6 +15,17 @@
             position: absolute;
             bottom: 3em;
         }
+
+        .diagram img {
+            width: 100%;
+        }
+
+          rect.reads {
+            fill: red;
+            stroke: blue;
+            height: 100;
+          }
+
     </style>
   </head>
   <body>
@@ -65,9 +76,19 @@ Storage:
 500mbps internet connection
 ---
 
-# SSD matters
+title: SSD matters
 
-TODO: IOPS diagram, comparison with clouds
+<!--
+  http://jsfiddle.net/gh/get/jquery/1.9.1/highslide-software/highcharts.com/tree/master/samples/highcharts/demo/column-parsed/
+-->
+
+.diagram[![SSD IOPS comparison](assets/ssd_chart_log.svg)]
+
+---
+
+title: SSD matters
+
+.diagram[![SSD IOPS comparison](assets/ssd_chart_linear.svg)]
 
 ---
 
@@ -106,6 +127,12 @@ Update rate
 
 # Reads
 varchar_ops
+
+---
+
+# Search
+trigram
+
 ---
 
 # Pain
@@ -117,7 +144,7 @@ varchar(126)
 
 # Pain
 ## Vacuum
-
+trim
 ---
 
 # Updates
