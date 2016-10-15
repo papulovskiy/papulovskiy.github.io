@@ -152,8 +152,21 @@ varchar(126)
 ---
 
 # Pain
-## Vacuum
-trim
+### PG 9.5
+
+    reverse=# vacuum analyze rev;
+    VACUUM
+    Time: 13063518.770 ms
+
+### PG 9.6
+
+    reverse=# vacuum analyze rev;
+    VACUUM
+    Time: 13156379.585 ms
+
+???
+No difference between versions, but no one expected
+
 ---
 
 # Updates
