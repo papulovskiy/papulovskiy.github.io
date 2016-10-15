@@ -59,13 +59,12 @@ IP v4
 2<sup>32</sup> = 4 294 967 296 possible IP addresses
 
 3 702 258 432 assigned IP addresses TODO: recheck
-
+???
+"Reverse" IP ordering to not to overload DNS-servers
 
 ---
 
-# Hardware
-
-TODO: refine
+# Desktop hardware
 
 CPU: 4 cores (8 threads) @4GHz with 8MB L3 cache
 Memory: 64GB non-ECC DDR4
@@ -74,6 +73,9 @@ Storage:
  1TB SATA SSD
  4TB Spinning disk
 500mbps internet connection
+
+???
+TODO: refine
 ---
 
 title: SSD matters
@@ -83,6 +85,13 @@ title: SSD matters
 -->
 
 .diagram[![SSD IOPS comparison](assets/ssd_chart_log.svg)]
+
+???
+Measured with fio tool (75% reads, 25% writes) on 4GB file.
+
+It's hard to compare environmets, so the measurement has been done to see the trend, not for absolute values.
+
+Logarithmic scale just to make spinning disk visible
 
 ---
 
