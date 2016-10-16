@@ -1,4 +1,4 @@
-# import cartopy.crs as ccrs
+#!/opt/local/bin/python3.5
 from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt
 
@@ -37,22 +37,20 @@ def get_points():
         (43.0797856, -96.7977637),
     ]
 
+
 if __name__ == "__main__":
 
-    # fig, ax = plt.subplots()
     fig = plt.figure(figsize=(40, 22.5))
     plt.subplots_adjust(left=0.02, right=0.98, top=0.98, bottom=0.00)
+
     m = Basemap(projection='robin', lon_0=0, resolution='c')
     m.fillcontinents(color='lightgray', lake_color='white')
-    # m.drawcoastlines()
-    # plt.savefig('world.png',dpi=75)
 
     ax = fig.gca()
-
     for point in get_points():
         x, y = m(point[1], point[0])
         circle1 = plt.Circle((x, y), 100000, color='#ee0000')
         ax.add_artist(circle1)
-        pass
 
     plt.savefig('world.svg')
+    # plt.savefig('world.png',dpi=75) # PNG output
