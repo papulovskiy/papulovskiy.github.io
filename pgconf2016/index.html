@@ -161,7 +161,20 @@ varchar(126)
 
 ???
 No difference between versions, but no one expected
+---
 
+# Pain
+~$ time pg_dump -Fc --verbose --no-unlogged-table-data reverse > ./reverse.dump.2016-10-16.fc.sql
+
+real    24m58.552s
+user    23m50.708s
+sys     0m14.676s
+
+~$ time pg_restore -d reverse /tmp/reverse.dump.2016-10-02.fc.sql
+
+real    298m48.499s
+user    6m12.956s
+sys     0m36.552s
 ---
 
 # Updates
