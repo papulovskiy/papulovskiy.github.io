@@ -44,13 +44,18 @@ if __name__ == "__main__":
     plt.subplots_adjust(left=0.02, right=0.98, top=0.98, bottom=0.00)
 
     m = Basemap(projection='robin', lon_0=0, resolution='c')
-    m.fillcontinents(color='lightgray', lake_color='white')
+    # continents = m.fillcontinents(color='lightgray', lake_color='white')
+    continents = m.fillcontinents(color='lightgray', lake_color='lightgray')
+
+    for i, continent in enumerate(continents):
+        continent.set_gid('continent')
 
     ax = fig.gca()
     for point in get_points():
         x, y = m(point[1], point[0])
-        circle1 = plt.Circle((x, y), 100000, color='#ee0000')
-        ax.add_artist(circle1)
+        circle1 = plt.Circle((x, y), 100000, fill='red', alpha=0.7)
+        circle1.set_gid("marker")
+        art = ax.add_artist(circle1)
 
     plt.savefig('world.svg')
     # plt.savefig('world.png',dpi=75) # PNG output
