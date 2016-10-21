@@ -96,11 +96,181 @@ title: SSD matters
 
 ---
 
+# Architecture overview
+Collectors
+webapp
+DB
+
+---
+
 # Database
 
 9.5/9.6
 
 TODO: postgresql.conf settings
+
+---
+
+# Benchmarks
+
+postgres@nvmepg96:~$ pgbench -i -n -q -s 100
+NOTICE:  table "pgbench_history" does not exist, skipping
+NOTICE:  table "pgbench_tellers" does not exist, skipping
+NOTICE:  table "pgbench_accounts" does not exist, skipping
+NOTICE:  table "pgbench_branches" does not exist, skipping
+creating tables...
+9676700 of 10000000 tuples (96%) done (elapsed 5.34 s, remaining 0.18 s)
+10000000 of 10000000 tuples (100%) done (elapsed 5.50 s, remaining 0.00 s)
+set primary keys...
+done.
+
+postgres@nvmepg96:~$ pgbench -t 1000 -c 1
+starting vacuum...end.
+transaction type: <builtin: TPC-B (sort of)>
+scaling factor: 100
+query mode: simple
+number of clients: 1
+number of threads: 1
+number of transactions per client: 1000
+number of transactions actually processed: 1000/1000
+latency average = 4.753 ms
+tps = 210.376085 (including connections establishing)
+tps = 210.439393 (excluding connections establishing)
+
+
+postgres@nvmepg96:~$ pgbench -t 1000 -c 10
+starting vacuum...end.
+transaction type: <builtin: TPC-B (sort of)>
+scaling factor: 100
+query mode: simple
+number of clients: 10
+number of threads: 1
+number of transactions per client: 1000
+number of transactions actually processed: 10000/10000
+latency average = 11.087 ms
+tps = 901.943743 (including connections establishing)
+tps = 902.049177 (excluding connections establishing)
+
+postgres@nvmepg96:~$ pgbench -t 1000 -c 100
+starting vacuum...end.
+transaction type: <builtin: TPC-B (sort of)>
+scaling factor: 100
+query mode: simple
+number of clients: 100
+number of threads: 1
+number of transactions per client: 1000
+number of transactions actually processed: 100000/100000
+latency average = 27.173 ms
+tps = 3680.132455 (including connections establishing)
+tps = 3680.307017 (excluding connections establishing)
+
+
+postgres@nvmepg96:~$ pgbench -i -n -q -s 1000
+creating tables...
+9088300 of 100000000 tuples (9%) done (elapsed 5.00 s, remaining 50.02 s)
+9088400 of 100000000 tuples (9%) done (elapsed 5.00 s, remaining 50.02 s)
+18580600 of 100000000 tuples (18%) done (elapsed 10.00 s, remaining 43.82 s)
+27544600 of 100000000 tuples (27%) done (elapsed 15.00 s, remaining 39.47 s)
+37316100 of 100000000 tuples (37%) done (elapsed 20.00 s, remaining 33.60 s)
+46566000 of 100000000 tuples (46%) done (elapsed 25.00 s, remaining 28.69 s)
+55498800 of 100000000 tuples (55%) done (elapsed 30.00 s, remaining 24.06 s)
+64744600 of 100000000 tuples (64%) done (elapsed 35.00 s, remaining 19.06 s)
+72365700 of 100000000 tuples (72%) done (elapsed 40.00 s, remaining 15.27 s)
+81995600 of 100000000 tuples (81%) done (elapsed 45.00 s, remaining 9.88 s)
+91040000 of 100000000 tuples (91%) done (elapsed 50.00 s, remaining 4.92 s)
+100000000 of 100000000 tuples (100%) done (elapsed 54.86 s, remaining 0.00 s)
+set primary keys...
+done.
+
+
+postgres@nvmepg96:~$ pgbench -t 10000 -c 1
+starting vacuum...end.
+transaction type: <builtin: TPC-B (sort of)>
+scaling factor: 1000
+query mode: simple
+number of clients: 1
+number of threads: 1
+number of transactions per client: 10000
+number of transactions actually processed: 10000/10000
+latency average = 4.443 ms
+tps = 225.084664 (including connections establishing)
+tps = 225.092112 (excluding connections establishing)
+
+
+postgres@nvmepg96:~$ pgbench -t 10000 -c 10
+starting vacuum...end.
+transaction type: <builtin: TPC-B (sort of)>
+scaling factor: 1000
+query mode: simple
+number of clients: 10
+number of threads: 1
+number of transactions per client: 1000
+number of transactions actually processed: 10000/10000
+latency average = 10.656 ms
+tps = 938.465388 (including connections establishing)
+tps = 938.577067 (excluding connections establishing)
+
+
+postgres@nvmepg96:~$ pgbench -t 10000 -c 100
+starting vacuum...end.
+transaction type: <builtin: TPC-B (sort of)>
+scaling factor: 1000
+query mode: simple
+number of clients: 100
+number of threads: 1
+number of transactions per client: 1000
+number of transactions actually processed: 100000/100000
+latency average = 27.918 ms
+tps = 3581.914626 (including connections establishing)
+tps = 3582.082283 (excluding connections establishing)
+
+
+postgres@nvmepg96:~$ pgbench -i -n -q -s 10000
+creating tables...
+9858700 of 1000000000 tuples (0%) done (elapsed 5.00 s, remaining 502.32 s)
+1000000000 of 1000000000 tuples (100%) done (elapsed 545.21 s, remaining 0.00 s)
+set primary keys...
+done.
+postgres@nvmepg96:~$ pgbench -t 10000 -c 1
+starting vacuum...end.
+transaction type: <builtin: TPC-B (sort of)>
+scaling factor: 10000
+query mode: simple
+number of clients: 1
+number of threads: 1
+number of transactions per client: 10000
+number of transactions actually processed: 10000/10000
+latency average = 5.001 ms
+tps = 199.963435 (including connections establishing)
+tps = 199.969233 (excluding connections establishing)
+
+postgres@nvmepg96:~$ pgbench -t 10000 -c 10
+starting vacuum...end.
+transaction type: <builtin: TPC-B (sort of)>
+scaling factor: 10000
+query mode: simple
+number of clients: 10
+number of threads: 1
+number of transactions per client: 10000
+number of transactions actually processed: 100000/100000
+latency average = 14.264 ms
+tps = 701.056576 (including connections establishing)
+tps = 701.062810 (excluding connections establishing)
+
+
+postgres@nvmepg96:~$ pgbench -t 10000 -c 100
+starting vacuum...end.
+transaction type: <builtin: TPC-B (sort of)>
+scaling factor: 10000
+query mode: simple
+number of clients: 100
+number of threads: 1
+number of transactions per client: 10000
+number of transactions actually processed: 1000000/1000000
+latency average = 38.912 ms
+tps = 2569.894441 (including connections establishing)
+tps = 2569.904046 (excluding connections establishing)
+
 
 ---
 
@@ -117,7 +287,7 @@ DDoS detector (5kpps)
 ---
 
 # Updates
-
+Sequencer
 Consistency
 Unlogged tables
 Update rate
@@ -126,6 +296,17 @@ Update rate
 
 # Data types
 
+PostgreSQL documentation states:
+> The storage requirement for a short string (up to 126 bytes) is 1 byte plus the actual string, which includes the space padding in the case of character. Longer strings have 4 bytes of overhead instead of 1.
+
+           column        | pg_column_size
+    ---------------------+----------------
+     000...000exactly120 |            121
+     000...000exactly170 |            174
+    (2 rows)
+
+???
+I read this and decided to make a whole field VARCHAR(126) to avoid additional disk space usage, but I made a test and found that it's applicable per row, not per field.
 
 ---
 
@@ -143,6 +324,75 @@ trigram
 ## Disc space
 inet vs int
 varchar(126)
+
+test=# create table vc_120 (t varchar(120));
+CREATE TABLE
+Time: 6.113 ms
+test=# insert into vc_120 select lpad(t::text, 120, '0') from (select generate_series(1, 50000000)) as t;
+INSERT 0 50000000
+Time: 124243.013 ms
+test=# select pg_relation_size('vc_120'), pg_relation_size('vc_120')/50000000;
+ pg_relation_size | ?column?
+------------------+----------
+       7876927488 |      157
+(1 row)
+
+Time: 0.880 ms
+
+test=# create table vc_170 (t varchar(170));
+CREATE TABLE
+Time: 8.747 ms
+test=# insert into vc_170 select lpad(t::text, 170, '0') from (select generate_series(1, 50000000)) as t;
+INSERT 0 50000000
+Time: 163271.730 ms
+test=# select pg_relation_size('vc_170'), pg_relation_size('vc_170')/50000000;
+ pg_relation_size | ?column?
+------------------+----------
+      10240000000 |      204
+(1 row)
+
+Time: 0.286 ms
+
+test=# create table vc_170_120 (t varchar(170));
+CREATE TABLE
+Time: 5.165 ms
+test=# insert into vc_170_120 select lpad(t::text, 120, '0') from (select generate_series(1, 50000000)) as t;
+INSERT 0 50000000
+Time: 142305.777 ms
+test=# select pg_relation_size('vc_170_120'), pg_relation_size('vc_170_120')/50000000;
+ pg_relation_size | ?column?
+------------------+----------
+       7876927488 |      157
+(1 row)
+
+Time: 0.363 ms
+
+
+
+test=# create table vc_120_plain (t varchar(120));
+CREATE TABLE
+Time: 7.591 ms
+test=# alter table vc_120_plain alter column t set storage plain;
+ALTER TABLE
+Time: 2.439 ms
+test=# insert into vc_120_plain select lpad(t::text, 120, '0') from (select generate_series(1, 50000000)) as t;
+INSERT 0 50000000
+Time: 154441.616 ms
+test=# select pg_relation_size('vc_120_plain'), pg_relation_size('vc_120_plain')/50000000;
+ pg_relation_size | ?column?
+------------------+----------
+       7876927488 |      157
+(1 row)
+
+Time: 0.221 ms
+test=# \d+ vc_120_plain
+                            Table "public.vc_120_plain"
+ Column |          Type          | Modifiers | Storage | Stats target | Description
+--------+------------------------+-----------+---------+--------------+-------------
+ t      | character varying(120) |           | plain   |              |
+
+
+
 
 ---
 

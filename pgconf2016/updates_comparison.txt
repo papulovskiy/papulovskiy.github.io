@@ -1,0 +1,162 @@
+reverse=# INSERT INTO rev SELECT r0.ip, now(), r0.name FROM rev_0_1000_done r0 LEFT OUTER JOIN rev r ON (r.ip=r0.ip) WHERE r.ip IS NULL;
+INSERT 0 151
+Time: 13464.801 ms
+
+reverse=# INSERT INTO rev SELECT r0.ip, now(), r0.name FROM rev_0_1001_done r0 LEFT OUTER JOIN rev r ON (r.ip=r0.ip) WHERE r.ip IS NULL;
+INSERT 0 177
+Time: 12018.567 ms
+
+reverse=# INSERT INTO rev SELECT r0.ip, now(), r0.name FROM rev_0_1002_done r0 LEFT OUTER JOIN rev r ON (r.ip=r0.ip) WHERE r.ip IS NULL;
+INSERT 0 175
+Time: 9352.951 ms
+
+reverse=# INSERT INTO rev SELECT r0.ip, now(), r0.name FROM rev_0_1003_done r0 LEFT OUTER JOIN rev r ON (r.ip=r0.ip) WHERE r.ip IS NULL;
+INSERT 0 189
+Time: 11508.271 ms
+
+reverse=# INSERT INTO rev SELECT r0.ip, now(), r0.name FROM rev_0_1004_done r0 LEFT OUTER JOIN rev r ON (r.ip=r0.ip) WHERE r.ip IS NULL;
+INSERT 0 171
+Time: 11334.711 ms
+
+reverse=# INSERT INTO rev SELECT r0.ip, now(), r0.name FROM rev_0_1005_done r0 LEFT OUTER JOIN rev r ON (r.ip=r0.ip) WHERE r.ip IS NULL;
+INSERT 0 178
+Time: 11728.743 ms
+
+
+
+
+reverse=# UPDATE rev SET name=r0.name FROM rev_0_1000_done r0 WHERE rev.ip=r0.ip AND rev.name != r0.name;
+UPDATE 425
+Time: 683.437 ms
+reverse=# UPDATE rev SET name=r0.name FROM rev_0_1001_done r0 WHERE rev.ip=r0.ip AND rev.name != r0.name;
+UPDATE 405
+Time: 659.800 ms
+reverse=# UPDATE rev SET name=r0.name FROM rev_0_1002_done r0 WHERE rev.ip=r0.ip AND rev.name != r0.name;
+UPDATE 405
+Time: 667.788 ms
+reverse=# UPDATE rev SET name=r0.name FROM rev_0_1003_done r0 WHERE rev.ip=r0.ip AND rev.name != r0.name;
+UPDATE 430
+Time: 676.794 ms
+reverse=# UPDATE rev SET name=r0.name FROM rev_0_1004_done r0 WHERE rev.ip=r0.ip AND rev.name != r0.name;
+UPDATE 386
+Time: 650.114 ms
+reverse=# UPDATE rev SET name=r0.name FROM rev_0_1005_done r0 WHERE rev.ip=r0.ip AND rev.name != r0.name;
+UPDATE 446
+Time: 675.919 ms
+
+
+reverse=# select count(*) from rev_0_1005_done;
+ count  
+--------
+ 100000
+(1 row)
+
+Time: 6.467 ms
+
+
+reverse=# UPDATE rev SET name=r0.name, updated_at=NOW() FROM rev_0_1006_done r0 WHERE rev.ip=r0.ip AND rev.name != r0.name;
+UPDATE 373
+Time: 12052.772 ms
+reverse=# UPDATE rev SET name=r0.name, updated_at=NOW() FROM rev_0_1007_done r0 WHERE rev.ip=r0.ip AND rev.name != r0.name;
+UPDATE 412
+Time: 12200.624 ms
+reverse=# UPDATE rev SET name=r0.name, updated_at=NOW() FROM rev_0_1008_done r0 WHERE rev.ip=r0.ip AND rev.name != r0.name;
+UPDATE 447
+Time: 11587.070 ms
+reverse=# UPDATE rev SET name=r0.name, updated_at=NOW() FROM rev_0_1009_done r0 WHERE rev.ip=r0.ip AND rev.name != r0.name;
+UPDATE 426
+Time: 11890.781 ms
+reverse=# UPDATE rev SET name=r0.name, updated_at=NOW() FROM rev_0_1010_done r0 WHERE rev.ip=r0.ip AND rev.name != r0.name;
+UPDATE 365
+Time: 11971.614 ms
+
+
+
+reverse=# INSERT INTO rev SELECT r0.ip, now(), r0.name FROM rev_0_1006_done r0 LEFT OUTER JOIN rev r ON (r.ip=r0.ip) WHERE r.ip IS NULL;
+INSERT 0 176
+Time: 513.017 ms
+reverse=# INSERT INTO rev SELECT r0.ip, now(), r0.name FROM rev_0_1007_done r0 LEFT OUTER JOIN rev r ON (r.ip=r0.ip) WHERE r.ip IS NULL;
+INSERT 0 195
+Time: 522.546 ms
+reverse=# INSERT INTO rev SELECT r0.ip, now(), r0.name FROM rev_0_1008_done r0 LEFT OUTER JOIN rev r ON (r.ip=r0.ip) WHERE r.ip IS NULL;
+INSERT 0 171
+Time: 516.695 ms
+reverse=# INSERT INTO rev SELECT r0.ip, now(), r0.name FROM rev_0_1009_done r0 LEFT OUTER JOIN rev r ON (r.ip=r0.ip) WHERE r.ip IS NULL;
+INSERT 0 173
+Time: 515.029 ms
+reverse=# INSERT INTO rev SELECT r0.ip, now(), r0.name FROM rev_0_1010_done r0 LEFT OUTER JOIN rev r ON (r.ip=r0.ip) WHERE r.ip IS NULL;
+INSERT 0 157
+Time: 536.564 ms
+
+
+
+
+
+reverse=# INSERT INTO rev (ip, name) SELECT distinct on (ip) * FROM rev_0_1013_done WHERE true ON CONFLICT ON CONSTRAINT rev_pkey DO UPDATE SET name=excluded.name, updated_at=NOW() WHERE rev.updated_at < NOW() AND rev.name != excluded.name;
+INSERT 0 592
+Time: 12768.969 ms
+reverse=# UPDATE rev SET updated_at=NOW() FROM rev_0_1013_done r0 WHERE rev.ip = r0.ip AND rev.name = r0.name;
+UPDATE 99968
+Time: 7550.221 ms
+reverse=# INSERT INTO rev (ip, name) SELECT distinct on (ip) * FROM rev_0_1014_done WHERE true ON CONFLICT ON CONSTRAINT rev_pkey DO UPDATE SET name=excluded.name, updated_at=NOW() WHERE rev.updated_at < NOW() AND rev.name != excluded.name;
+INSERT 0 562
+Time: 52421.575 ms
+reverse=# UPDATE rev SET updated_at=NOW() FROM rev_0_1014_done r0 WHERE rev.ip = r0.ip AND rev.name = r0.name;
+UPDATE 99975
+Time: 15410.733 ms
+reverse=# INSERT INTO rev (ip, name) SELECT distinct on (ip) * FROM rev_0_1015_done WHERE true ON CONFLICT ON CONSTRAINT rev_pkey DO UPDATE SET name=excluded.name, updated_at=NOW() WHERE rev.updated_at < NOW() AND rev.name != excluded.name;
+INSERT 0 619
+Time: 106156.964 ms
+reverse=# UPDATE rev SET updated_at=NOW() FROM rev_0_1015_done r0 WHERE rev.ip = r0.ip AND rev.name = r0.name;
+UPDATE 99979
+Time: 20318.565 ms
+reverse=# INSERT INTO rev (ip, name) SELECT distinct on (ip) * FROM rev_0_1016_done WHERE true ON CONFLICT ON CONSTRAINT rev_pkey DO UPDATE SET name=excluded.name, updated_at=NOW() WHERE rev.updated_at < NOW() AND rev.name != excluded.name;
+INSERT 0 575
+Time: 120597.937 ms
+reverse=# UPDATE rev SET updated_at=NOW() FROM rev_0_1016_done r0 WHERE rev.ip = r0.ip AND rev.name = r0.name;
+UPDATE 99964
+Time: 24015.239 ms
+
+
+
+
+
+
+reverse=# explain analyze INSERT INTO rev (ip, name) SELECT distinct on (ip) * FROM rev_0_1018_done WHERE true ON CONFLICT ON CONSTRAINT rev_pkey DO UPDATE SET name=excluded.name, updated_at=NOW() WHERE rev.updated_at < NOW() AND rev.name != excluded.name;
+                                                                   QUERY PLAN                                                                   
+------------------------------------------------------------------------------------------------------------------------------------------------
+ Insert on rev  (cost=10209.82..11708.88 rows=99906 width=45) (actual time=43396.735..43396.735 rows=0 loops=1)
+   Conflict Resolution: UPDATE
+   Conflict Arbiter Indexes: rev_pkey
+   Conflict Filter: ((rev.updated_at < now()) AND (rev.name <> excluded.name))
+   Rows Removed by Conflict Filter: 99393
+   Tuples Inserted: 142
+   Conflicting Tuples: 99836
+   ->  Subquery Scan on "*SELECT*"  (cost=10209.82..11708.88 rows=99906 width=45) (actual time=77.559..155.756 rows=99978 loops=1)
+         ->  Unique  (cost=10209.82..10709.82 rows=99906 width=41) (actual time=77.558..130.444 rows=99978 loops=1)
+               ->  Sort  (cost=10209.82..10459.82 rows=100000 width=41) (actual time=77.557..98.104 rows=100000 loops=1)
+                     Sort Key: rev_0_1018_done.ip
+                     Sort Method: quicksort  Memory: 12366kB
+                     ->  Seq Scan on rev_0_1018_done  (cost=0.00..1905.00 rows=100000 width=41) (actual time=1.037..25.732 rows=100000 loops=1)
+ Planning time: 1.352 ms
+ Execution time: 43397.030 ms
+(15 rows)
+
+Time: 43427.706 ms
+
+reverse=# explain analyze UPDATE rev SET name=r0.name, updated_at=NOW() FROM rev_0_1019_done r0 WHERE rev.ip=r0.ip AND rev.name != r0.name;
+                                                              QUERY PLAN                                                               
+---------------------------------------------------------------------------------------------------------------------------------------
+ Update on rev  (cost=0.58..856282.96 rows=99992 width=58) (actual time=1658.421..1658.421 rows=0 loops=1)
+   ->  Nested Loop  (cost=0.58..856282.96 rows=99992 width=58) (actual time=1.369..1320.130 rows=411 loops=1)
+         ->  Seq Scan on rev_0_1019_done r0  (cost=0.00..1905.00 rows=100000 width=48) (actual time=0.005..16.446 rows=100000 loops=1)
+         ->  Index Scan using rev_pkey on rev  (cost=0.58..8.53 rows=1 width=47) (actual time=0.013..0.013 rows=0 loops=100000)
+               Index Cond: (ip = r0.ip)
+               Filter: (name <> r0.name)
+               Rows Removed by Filter: 1
+ Planning time: 0.193 ms
+ Execution time: 1658.440 ms
+(9 rows)
+
+Time: 1665.146 ms
+
