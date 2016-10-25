@@ -20,12 +20,24 @@
             width: 100%;
         }
 
-          rect.reads {
-            fill: red;
-            stroke: blue;
-            height: 100;
-          }
+        rect.reads {
+          fill: red;
+          stroke: blue;
+          height: 100;
+        }
 
+        .mtable table {
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .mtable th {
+          border-bottom:1px solid #333333;
+          /*padding-right: 10px;*/
+        }
+
+        .mtable td {
+          padding-right: 30px;
+        }
     </style>
   </head>
   <body>
@@ -41,29 +53,148 @@ class: center, middle
 https://remarkjs.com
 
 ---
+class: center
+# PTR
 
-# reverse.report
+### "Every Internet-reachable host should have a name"
 
-8.8.8.8 → 8.8.8.8.in-addr.arpa → google-public-dns-a.google.com.
+8.8.4.4 → 4.4.8.8.in-addr.arpa → google-public-dns-b.google.com.
 
-IP v4
 
-2<sup>32</sup> = 4 294 967 296 possible IP addresses
-
-3 702 258 432 assigned IP addresses TODO: recheck
 ???
+
+RFC 1912
+
+PTR - pointer to canonical name, used for determination of a domain name associated with an IP address.
+
+"For every IP address, there should be a matching PTR record in the in-addr.arpa domain."
+
 "Reverse" IP ordering to not to overload DNS-servers
 
 ---
+class: center
+# IP v4
 
+## 2<sup>32</sup>
+
+4 294 967 296 possible IP addresses
+
+3 702 258 432 non-reserved IP addresses
+
+1 294 913 005 addresses have pointer records
+
+???
+
+There are reserved blocks of IP addresses
+
+---
+class: center
+
+# reverse.report
+
+### Database of pointer records for IPv4 addresses
+
+1 294 913 005 records
+
+100 GB of data
+
+130 GB of indexes
+
+&lt; 20 select requests per second
+
+~ 160 000 000 updates per day
+
+~ 2000 (adjusted) updates per second
+
+
+???
+
+The goal was to collect data and make it available for searching
+
+
+---
+class: center
+
+# Why
+
+.mtable[
+| IP          | PTR                           |
+|:------------|:------------------------------|
+| 5.57.16.136 | bluejeans.booking.com         |
+| 5.57.16.202 | derp.booking.com              |
+| 5.57.16.203 | nagios-lhr4.api.booking.com   |
+| 5.57.16.22  | flog.booking.com              |
+| 5.57.16.29  | paste.booking.com             |
+| 5.57.16.46  | canteen.booking.com           |
+| 5.57.17.136 | bluejeans.booking.com         |
+| 5.57.17.14  | controlrooms.booking.com      |
+| 5.57.17.15  | hadoop-dashboard.booking.com  |
+| 5.57.17.203 | nagios-ams4.api.booking.com   |
+| 5.57.20.195 | pcln-xml-test.booking.com     |
+| 5.57.20.196 | ctrip-xml-test.booking.com    |
+]
+
+???
+Security research - many companies reveal infrastructure via reverse DNS
+
+---
+class: center
+# Why
+
+.mtable[
+| IP             | PTR             |
+|:---------------|:----------------|
+| 173.1.57.105   | mysql1.uber.com |
+| 173.1.57.106   | mysql2.uber.com |
+| 173.1.57.107   | mongo1.uber.com |
+| 173.1.57.108   | mongo2.uber.com |
+| 173.204.236.25 | mongo3.uber.com |
+| 173.204.236.26 | mysql3.uber.com |
+]
+
+???
+
+---
+class: center
+# Why
+
+.mtable[
+| IP              | PTR                |
+|:----------------|:-------------------|
+| 5.9.96.242      | aspmx.l.google.com |
+| 8.19.180.13     | aspmx.l.google.com |
+| 23.246.203.2    | aspmx.l.google.com |
+| 70.168.243.204  | aspmx.l.google.com |
+| 80.77.52.162    | aspmx.l.google.com |
+| 89.19.28.24     | aspmx.l.google.com |
+| 96.27.130.206   | aspmx.l.google.com |
+| 108.89.77.153   | aspmx.l.google.com |
+| 110.143.19.194  | aspmx.l.google.com |
+| 138.201.19.34   | aspmx.l.google.com |
+| 146.255.185.92  | aspmx.l.google.com |
+| 176.9.108.76    | aspmx.l.google.com |
+| 181.170.194.209 | aspmx.l.google.com |
+| 190.210.81.241  | aspmx.l.google.com |
+| 200.42.6.196    | aspmx.l.google.com |
+]
+
+???
+Impersonation
+---
+class: center
 # Desktop hardware
 
-CPU: 4 cores (8 threads) @4GHz with 8MB L3 cache
-Memory: 64GB non-ECC DDR4
-Storage:
- 512GB NVMe SSD
- 1TB SATA SSD
- 4TB Spinning disk
+
+4 cores (8 threads) CPU<!--  @4GHz with 8MB L3 cache -->
+
+64GB non-ECC DDR4 RAM
+
+512GB NVMe SSD
+
+1TB SATA SSD
+
+4TB Spinning disk
+
 500mbps internet connection
 
 ???
@@ -79,9 +210,11 @@ title: SSD matters
 .diagram[![SSD IOPS comparison](assets/ssd_chart_log.svg)]
 
 ???
+Storage revolution
+
 Measured with fio tool (75% reads, 25% writes) on 4GB file.
 
-It's hard to compare environmets, so the measurement has been done to see the trend, not for absolute values.
+It's hard to compare environments, so the measurement done just to see the trend, not for absolute values.
 
 Logarithmic scale just to make spinning disk visible
 
