@@ -610,7 +610,7 @@ class: center
 | fixed | **fixed** | variable |
 ]
 
-### Second option about 9% faster
+### Second option is about 9% faster
 
 
 ---
@@ -633,7 +633,82 @@ CREATE INDEX rev_name_idx
     ON rev (name varchar_pattern_ops);
 ```]
 
+---
 
+class: center
+
+# Updates
+
+More than one python scripts that collect data, use of intermediate tables.
+
+???
+Async scripts - it's better to write everything in buffer fast at once to not loose incoming UDP packets.
+
+I can afford losing some update chunks.
+
+---
+class: center
+
+# Write amplification
+
+???
+TEMPORARY (not for sharing data between processes)
+UNLOGGED
+LOGGED (regular)
+
+
+---
+class: center
+
+# Write amplification
+
+.mcode[```
+# CREATE UNLOGGED TABLE test_inserts (f1 INT);
+# INSERT INTO test_inserts SELECT generate_series(1, 10000000);
+```]
+
+### ~359MB
+
+???
+It's not the best test for Postgres because of additional 24 bytes per row, but it shows trend.
+
+cat /proc/{}/io | grep ^write_bytes
+
+---
+class: center
+
+# Write amplification
+
+.mcode[```
+# CREATE UNLOGGED TABLE test_inserts (f1 INT PRIMARY KEY);
+# INSERT INTO test_inserts SELECT generate_series(1, 10000000);
+```]
+
+### ~560MB
+
+---
+class: center
+
+# Write amplification
+
+.mcode[```
+# CREATE TABLE test_inserts (f1 INT);
+# INSERT INTO test_inserts SELECT generate_series(1, 10000000);
+```]
+
+### ~1090MB
+
+---
+class: center
+
+# Write amplification
+
+.mcode[```
+# CREATE TABLE test_inserts (f1 INT PRIMARY KEY);
+# INSERT INTO test_inserts SELECT generate_series(1, 10000000);
+```]
+
+### ~2054MB
 
 ---
 
