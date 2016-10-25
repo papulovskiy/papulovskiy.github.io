@@ -38,6 +38,13 @@
         .mtable td {
           padding-right: 30px;
         }
+
+        .mcode {
+          text-align: left;
+          margin-left: auto;
+          margin-right: auto;
+          display: inline-block;
+        }
     </style>
   </head>
   <body>
@@ -191,7 +198,7 @@ class: center
 
 512GB NVMe SSD
 
-1TB SATA SSD
+<!-- 1TB SATA SSD -->
 
 4TB Spinning disk
 
@@ -225,11 +232,408 @@ title: SSD matters
 .diagram[![SSD IOPS comparison](assets/ssd_chart_linear.svg)]
 
 ---
+class: center
 
-# Architecture overview
-Collectors
-webapp
-DB
+# Scenario #1
+
+.mcode[
+```
+# SELECT ip, name FROM rev WHERE ip << '8.8.8.0/24';
+
+
+    ip    |             name
+----------+--------------------------------
+ 8.8.8.8  | google-public-dns-a.google.com
+ 8.8.8.14 | localhost
+(2 rows)
+
+```]
+
+???
+Inet has range operator
+
+---
+class: center
+
+# Scenario #2
+
+.mcode[
+```
+# SELECT ip, name FROM rev WHERE name = 'postgresql.org'
+  OR name LIKE '%.postgresql.org' LIMIT 10;
+
+
+      ip       |         reverse
+---------------+--------------------------
+ 63.246.23.146 | lore.postgresql.org
+ 66.98.251.16  | svr5.postgresql.org
+ 66.98.251.159 | svr4.postgresql.org
+ 69.168.55.12  | buildfarm.postgresql.org
+ 87.238.57.226 | castal.postgresql.org
+ 87.238.57.227 | feris.postgresql.org
+ 87.238.57.228 | borka.postgresql.org
+ 87.238.57.229 | magus.postgresql.org
+ 87.238.57.230 | straleb.postgresql.org
+ 87.238.57.231 | meldrar.postgresql.org
+(10 rows)
+
+```]
+
+???
+Not using btree index, store reversed or use index over reversed value.
+
+---
+class: center
+
+# Scenario #2
+
+.mcode[
+```
+# SELECT ip, name FROM rev WHERE name = reverse('postgresql.org')
+  OR name LIKE reverse('%.postgresql.org') LIMIT 10;
+
+
+      ip       |           name
+---------------+--------------------------
+ 63.246.23.146 | gro.lqsergtsop.erol
+ 66.98.251.16  | gro.lqsergtsop.5rvs
+ 66.98.251.159 | gro.lqsergtsop.4rvs
+ 69.168.55.12  | gro.lqsergtsop.mrafdliub
+ 87.238.57.226 | gro.lqsergtsop.latsac
+ 87.238.57.227 | gro.lqsergtsop.siref
+ 87.238.57.228 | gro.lqsergtsop.akrob
+ 87.238.57.229 | gro.lqsergtsop.sugam
+ 87.238.57.230 | gro.lqsergtsop.belarts
+ 87.238.57.231 | gro.lqsergtsop.rardlem
+(10 rows)
+
+
+```]
+
+???
+
+---
+class: center
+
+# Scenario #2
+
+.mcode[
+```
+# SELECT ip, reverse(name) FROM rev WHERE name = reverse('postgresql.org')
+  OR name LIKE reverse('%.postgresql.org') LIMIT 10;
+
+
+      ip       |         reverse
+---------------+--------------------------
+ 63.246.23.146 | lore.postgresql.org
+ 66.98.251.16  | svr5.postgresql.org
+ 66.98.251.159 | svr4.postgresql.org
+ 69.168.55.12  | buildfarm.postgresql.org
+ 87.238.57.226 | castal.postgresql.org
+ 87.238.57.227 | feris.postgresql.org
+ 87.238.57.228 | borka.postgresql.org
+ 87.238.57.229 | magus.postgresql.org
+ 87.238.57.230 | straleb.postgresql.org
+ 87.238.57.231 | meldrar.postgresql.org
+(10 rows)
+
+
+```]
+
+???
+---
+class: center
+
+# The Table
+
+.mcode[
+```
+CREATE TABLE rev (
+    ip INET PRIMARY KEY,
+    name TEXT
+);
+
+CREATE INDEX rev_name_idx
+    ON rev (name);
+```]
+
+---
+
+class: center
+
+# The Table
+
+.mcode[
+```
+      Table "public.rev"
+
+
+   Column   | Type | Modifiers
+------------+------+-----------
+ ip         | inet | not null
+ name       | text |
+
+
+Indexes:
+    "rev_pkey" PRIMARY KEY, btree (ip)
+    "rev_name_idx" btree (name)
+```
+]
+
+???
+Two main scenarios
+<< inet
+subdomains
+store reversed strings
+
+
+Goal: keep everything as simple as possible, no sharding.
+
+---
+class: center
+
+# CLUSTER
+
+.left[
+> CLUSTER instructs PostgreSQL to cluster the table specified by **table_name** based on the index specified by **index_name**. When a table is clustered, it is physically reordered based on the index information.
+]
+
+.mcode[
+```
+# CLUSTER rev USING rev_pkey;
+```
+]
+
+???
+For selection by networks it's better to have close IPs closer to each other, so there will be less page fetches from disk.
+
+One-time operation, actually rewrites the table.
+
+What happens during update? PTRs a more or less "static", but they actually change and it's better to run cluster again (ACCESS EXCLUSIVE lock → stop updates, create a copy of the table, cluster it, swap tables) from time to time or to specify fillfactor.
+
+TODO: measure
+---
+
+class: center
+
+# The Table
+
+.mcode[
+```
+CREATE TABLE rev (
+    ip INET PRIMARY KEY,
+    name TEXT
+) WITH (
+    fillfactor=70
+);
+
+CREATE INDEX rev_name_idx
+    ON rev (name);
+```]
+
+
+---
+class: center
+
+# Documentation
+
+> The storage requirement for a short string (up to 126 bytes) is 1 byte plus the actual string, which includes the space padding in the case of character. Longer strings have 4 bytes of overhead instead of 1.
+
+???
+
+I read this and decided to split table to two different tables — to store long values separately.
+---
+class: center
+
+# Documentation
+
+> The storage requirement for a short string (up to 126 bytes) is 1 byte plus the actual string, which includes the space padding in the case of character. Longer strings have 4 bytes of overhead instead of 1.
+
+# pg_column_size()
+
+.mcode[
+```
+       column        | pg_column_size
+---------------------+----------------
+ 000...000exactly120 |            121
+ 000...000exactly170 |            174
+(2 rows)
+```
+]
+
+???
+
+12 minutes
+
+---
+
+# varchar_pattern_ops
+
+Index sizes
+Operation time
+
+
+???
+C collation, UTF8
+
+---
+
+class: center
+
+# The Table
+
+.mcode[
+```
+CREATE TABLE rev (
+    ip INET PRIMARY KEY,
+    name TEXT
+) WITH (
+    fillfactor=70
+);
+
+CREATE INDEX rev_name_idx
+    ON rev (name varchar_pattern_ops);
+```]
+
+---
+class: center
+
+# Tracking updates
+
+.mcode[
+```
+ALTER TABLE rev ADD COLUMN updated_at DATE;
+```
+]
+
+<br/>
+
+.mtable[
+| ip | name | updated_at |
+|:------|:---------|:------|
+| fixed | variable | fixed |
+]
+
+???
+It's better to store all fixed values first, but why?
+
+Experiment with mentioned table structure.
+
+---
+class: center
+
+# Type alignment
+
+<br/>
+
+.mtable[
+| ip | name | updated_at |
+|:------|:---------|:------|
+| fixed | variable | fixed |
+]
+
+<br/>
+
+.mtable[
+| ip | updated_at | name |
+|:------|:---------|:------|
+| fixed | fixed | variable |
+]
+
+
+---
+class: center
+
+# Inserts
+
+<br/>
+
+.mtable[
+| ip | name | updated_at |
+|:------|:---------|:------|
+| fixed | variable | fixed |
+]
+
+<br/>
+
+.mtable[
+| ip | updated_at | name |
+|:------|:---------|:------|
+| fixed | fixed | variable |
+]
+
+# No winner
+
+
+---
+class: center
+
+# Seq scan by ip
+
+<br/>
+
+.mtable[
+| ip | name | updated_at |
+|:------|:---------|:------|
+| **fixed** | variable | fixed |
+]
+
+<br/>
+
+.mtable[
+| ip | updated_at | name |
+|:------|:---------|:------|
+| **fixed** | fixed | variable |
+]
+
+# No winner
+Results within measurement error.
+
+---
+class: center
+
+# Seq scan by updated_at
+
+<br/>
+
+.mtable[
+| ip | name | updated_at |
+|:------|:---------|:------|
+| fixed | variable | **fixed** |
+]
+
+<br/>
+
+.mtable[
+| ip | updated_at | name |
+|:------|:---------|:------|
+| fixed | **fixed** | variable |
+]
+
+### Second option about 9% faster
+
+
+---
+
+class: center
+
+# The Table
+
+.mcode[
+```
+CREATE TABLE rev (
+    ip INET PRIMARY KEY,
+    updated_at DATE,
+    name TEXT
+) WITH (
+    fillfactor=70
+);
+
+CREATE INDEX rev_name_idx
+    ON rev (name varchar_pattern_ops);
+```]
+
+
 
 ---
 
