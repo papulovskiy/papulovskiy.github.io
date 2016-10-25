@@ -712,6 +712,64 @@ class: center
 
 ---
 
+Comparison between update+insert, upsert.
+
+
+---
+
+Disk space exhaustion, autovacuum
+
+
+---
+Do not update unchanged data
+TODO: description of rows version, indexing and WAL
+
+---
+
+Trigram search
+
+---
+class: center
+
+# Pain
+
+### PG 9.6
+
+.mcode[```
+reverse=# VACUUM ANALYZE rev;
+VACUUM
+Time: 13156379.585 ms
+```]
+
+???
+3.5 hours
+
+No difference between 9.5 and 9.6 versions, but no one expected.
+
+---
+class:center
+
+# Pain
+.mcode[```
+~$ time pg_dump -Fc --no-unlogged-table-data reverse > ./dumpfile
+
+real    24m58.552s
+user    23m50.708s
+sys     0m14.676s
+
+
+~$ time pg_restore -d reverse ./dumpfile
+
+real    298m48.499s
+user    6m12.956s
+sys     0m36.552s
+```]
+
+???
+Backup takes 25 minutes, restore takes 5 hours (or 12 on cloud).
+
+---
+
 # Database
 
 9.5/9.6
@@ -891,9 +949,6 @@ DDoS detector (5kpps)
 
 ---
 
-# Database schema
-
----
 
 # Updates
 Sequencer
@@ -903,143 +958,13 @@ Update rate
 
 ---
 
-# Data types
-
-PostgreSQL documentation states:
-> The storage requirement for a short string (up to 126 bytes) is 1 byte plus the actual string, which includes the space padding in the case of character. Longer strings have 4 bytes of overhead instead of 1.
-
-           column        | pg_column_size
-    ---------------------+----------------
-     000...000exactly120 |            121
-     000...000exactly170 |            174
-    (2 rows)
-
-???
-I read this and decided to make a whole field VARCHAR(126) to avoid additional disk space usage, but I made a test and found that it's applicable per row, not per field.
-
----
-
-# Reads
-varchar_ops
-
----
-
 # Search
 trigram
 
 ---
 
-# Pain
-## Disc space
-inet vs int
-varchar(126)
-
-test=# create table vc_120 (t varchar(120));
-CREATE TABLE
-Time: 6.113 ms
-test=# insert into vc_120 select lpad(t::text, 120, '0') from (select generate_series(1, 50000000)) as t;
-INSERT 0 50000000
-Time: 124243.013 ms
-test=# select pg_relation_size('vc_120'), pg_relation_size('vc_120')/50000000;
- pg_relation_size | ?column?
-------------------+----------
-       7876927488 |      157
-(1 row)
-
-Time: 0.880 ms
-
-test=# create table vc_170 (t varchar(170));
-CREATE TABLE
-Time: 8.747 ms
-test=# insert into vc_170 select lpad(t::text, 170, '0') from (select generate_series(1, 50000000)) as t;
-INSERT 0 50000000
-Time: 163271.730 ms
-test=# select pg_relation_size('vc_170'), pg_relation_size('vc_170')/50000000;
- pg_relation_size | ?column?
-------------------+----------
-      10240000000 |      204
-(1 row)
-
-Time: 0.286 ms
-
-test=# create table vc_170_120 (t varchar(170));
-CREATE TABLE
-Time: 5.165 ms
-test=# insert into vc_170_120 select lpad(t::text, 120, '0') from (select generate_series(1, 50000000)) as t;
-INSERT 0 50000000
-Time: 142305.777 ms
-test=# select pg_relation_size('vc_170_120'), pg_relation_size('vc_170_120')/50000000;
- pg_relation_size | ?column?
-------------------+----------
-       7876927488 |      157
-(1 row)
-
-Time: 0.363 ms
 
 
-
-test=# create table vc_120_plain (t varchar(120));
-CREATE TABLE
-Time: 7.591 ms
-test=# alter table vc_120_plain alter column t set storage plain;
-ALTER TABLE
-Time: 2.439 ms
-test=# insert into vc_120_plain select lpad(t::text, 120, '0') from (select generate_series(1, 50000000)) as t;
-INSERT 0 50000000
-Time: 154441.616 ms
-test=# select pg_relation_size('vc_120_plain'), pg_relation_size('vc_120_plain')/50000000;
- pg_relation_size | ?column?
-------------------+----------
-       7876927488 |      157
-(1 row)
-
-Time: 0.221 ms
-test=# \d+ vc_120_plain
-                            Table "public.vc_120_plain"
- Column |          Type          | Modifiers | Storage | Stats target | Description
---------+------------------------+-----------+---------+--------------+-------------
- t      | character varying(120) |           | plain   |              |
-
-
-
-
----
-
-# Pain
-### PG 9.5
-
-    reverse=# vacuum analyze rev;
-    VACUUM
-    Time: 13063518.770 ms
-
-### PG 9.6
-
-    reverse=# vacuum analyze rev;
-    VACUUM
-    Time: 13156379.585 ms
-
-???
-No difference between versions, but no one expected
----
-
-# Pain
-~$ time pg_dump -Fc --verbose --no-unlogged-table-data reverse > ./reverse.dump.2016-10-16.fc.sql
-
-real    24m58.552s
-user    23m50.708s
-sys     0m14.676s
-
-~$ time pg_restore -d reverse /tmp/reverse.dump.2016-10-02.fc.sql
-
-real    298m48.499s
-user    6m12.956s
-sys     0m36.552s
----
-
-# Updates
-TODO: do not update values that not changed
-TODO: description of rows version, indexing and WAL
----
 
 # Reads
 TODO: sort in query
