@@ -105,7 +105,7 @@ class: center
 
 100 GB of data
 
-130 GB of indexes
+100 GB of indexes
 
 &lt; 20 select requests per second
 
@@ -709,6 +709,239 @@ class: center
 ```]
 
 ### ~2054MB
+
+---
+class: center
+
+# Write amplification
+
+.mcode[```
+# CREATE UNLOGGED TABLE test_updates (f1 INT);
+# INSERT INTO test_updates SELECT generate_series(1, 10000000);
+```]
+
+### ~360MB
+
+---
+class: center
+
+# Write amplification
+
+.mcode[```
+# CREATE UNLOGGED TABLE test_updates (f1 INT);
+# INSERT INTO test_updates SELECT generate_series(1, 10000000);
+# UPDATE test_updates SET f1=f1;
+```]
+
+### ~780MB
+
+
+---
+class: center
+
+# Write amplification
+
+.mcode[```
+# CREATE UNLOGGED TABLE test_updates (f1 INT);
+# INSERT INTO test_updates SELECT generate_series(1, 10000000);
+# UPDATE test_updates SET f1=f1;
+# UPDATE test_updates SET f1=f1+10000000;
+```]
+
+### ~1280MB
+
+
+---
+class: center
+
+# Write amplification
+
+.mcode[```
+# CREATE UNLOGGED TABLE test_updates (f1 INT);
+# INSERT INTO test_updates SELECT generate_series(1, 10000000);
+# UPDATE test_updates SET f1=f1;
+# UPDATE test_updates SET f1=f1+10000000;
+# UPDATE test_updates SET f1=f1-10000000;
+```]
+
+### ~1150MB
+
+
+---
+class: center
+
+# Write amplification
+
+.mcode[```
+# CREATE UNLOGGED TABLE test_updates (f1 INT);
+# INSERT INTO test_updates SELECT generate_series(1, 10000000);
+# UPDATE test_updates SET f1=f1;
+# UPDATE test_updates SET f1=f1+10000000;
+# UPDATE test_updates SET f1=f1-10000000;
+# UPDATE test_updates SET f1=f1;
+```]
+
+### ~1230MB
+
+
+---
+class: center
+
+# Write amplification
+
+.mcode[```
+# CREATE TABLE test_updates (f1 INT PRIMARY KEY);
+# INSERT INTO test_updates SELECT generate_series(1, 10000000);
+```]
+
+### ~2070MB
+
+
+---
+class: center
+
+# Write amplification
+
+.mcode[```
+# CREATE TABLE test_updates (f1 INT PRIMARY KEY);
+# INSERT INTO test_updates SELECT generate_series(1, 10000000);
+# UPDATE test_updates SET f1=f1;
+```]
+
+### ~4260MB
+
+---
+class: center
+
+# Write amplification
+
+.mcode[```
+# CREATE TABLE test_updates (f1 INT PRIMARY KEY);
+# INSERT INTO test_updates SELECT generate_series(1, 10000000);
+# UPDATE test_updates SET f1=f1;
+# UPDATE test_updates SET f1=f1+10000000;
+```]
+
+### ~3900MB
+
+
+---
+class: center
+
+# Write amplification
+
+.mcode[```
+# CREATE TABLE test_updates (f1 INT PRIMARY KEY);
+# INSERT INTO test_updates SELECT generate_series(1, 10000000);
+# UPDATE test_updates SET f1=f1;
+# UPDATE test_updates SET f1=f1+10000000;
+# UPDATE test_updates SET f1=f1-10000000;
+```]
+
+### ~4620MB
+
+
+---
+class: center
+
+# Write amplification
+
+.mcode[```
+# CREATE TABLE test_updates (f1 INT PRIMARY KEY);
+# INSERT INTO test_updates SELECT generate_series(1, 10000000);
+# VACUUM FULL test_updates;
+# UPDATE test_updates SET f1=f1;
+```]
+
+### ~4350MB
+
+
+---
+class: center
+
+# Write amplification
+
+.mcode[```
+# CREATE TABLE test_updates (f1 INT PRIMARY KEY);
+# INSERT INTO test_updates SELECT generate_series(1, 10000000);
+# VACUUM FULL test_updates;
+# UPDATE test_updates SET f1=f1;
+# VACUUM FULL test_updates;
+# UPDATE test_updates SET f1=f1+10000000;
+```]
+
+### ~3430MB
+
+
+---
+class: center
+
+# Write amplification
+
+.mcode[```
+# CREATE TABLE test_updates (f1 INT PRIMARY KEY);
+# INSERT INTO test_updates SELECT generate_series(1, 10000000);
+# VACUUM FULL test_updates;
+# UPDATE test_updates SET f1=f1;
+# VACUUM FULL test_updates;
+# UPDATE test_updates SET f1=f1+10000000;
+# VACUUM FULL test_updates;
+# UPDATE test_updates SET f1=f1-10000000;
+```]
+
+### ~3890MB
+
+
+---
+class: center
+
+# Write amplification
+
+.mcode[```
+# CREATE TABLE test_updates (f1 INT PRIMARY KEY, f2 INT);
+# INSERT INTO test_updates
+    SELECT generate_series(1, 10000000), generate_series(1, 10000000);
+```]
+
+### ~2020MB
+
+
+---
+class: center
+
+# Write amplification
+
+.mcode[```
+# CREATE TABLE test_updates (f1 INT PRIMARY KEY, f2 INT);
+# INSERT INTO test_updates
+    SELECT generate_series(1, 10000000), generate_series(1, 10000000);
+# UPDATE test_updates SET f2=f2;
+```]
+
+### ~4460MB
+
+
+---
+class: center
+
+# Write amplification
+
+.mcode[```
+# CREATE TABLE test_updates (f1 INT PRIMARY KEY, f2 INT);
+# INSERT INTO test_updates
+    SELECT generate_series(1, 10000000), generate_series(1, 10000000);
+# UPDATE test_updates SET f2=f2;
+# VACUUM test_updates;
+# UPDATE test_updates SET f2=f2;
+```]
+
+### ~1960MB
+
+
+
+
+
+
 
 ---
 
