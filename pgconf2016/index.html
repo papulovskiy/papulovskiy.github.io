@@ -466,15 +466,29 @@ class: center
 12 minutes
 
 ---
+class: center
 
-# varchar_pattern_ops
+# text_pattern_ops
 
-Index sizes
-Operation time
-
+**... values are compared strictly character by character ...**
 
 ???
 C collation, UTF8
+
+TODO: calculate
+
+
+---
+class: center
+
+# text_pattern_ops
+
+**... values are compared strictly character by character ...**
+
+## 4 times faster
+than default operator classes on pattern matching
+
+???
 
 ---
 
@@ -492,7 +506,7 @@ CREATE TABLE rev (
 );
 
 CREATE INDEX rev_name_idx
-    ON rev (name varchar_pattern_ops);
+    ON rev (name text_pattern_ops);
 ```]
 
 ---
@@ -937,25 +951,17 @@ class: center
 
 ### ~1960MB
 
+???
+What about HOT?
 
+---
+class: center, middle
 
-
-
-
+# Do not update unchanged data
 
 ---
 
 Comparison between update+insert, upsert.
-
-
----
-
-Disk space exhaustion, autovacuum
-
-
----
-Do not update unchanged data
-TODO: description of rows version, indexing and WAL
 
 ---
 
@@ -1000,6 +1006,36 @@ sys     0m36.552s
 
 ???
 Backup takes 25 minutes, restore takes 5 hours (or 12 on cloud).
+
+---
+class: center
+# Know your data
+
+---
+class: center
+# Know your data
+# Do not update unchanged data
+
+---
+class: center
+# Know your data
+# Do not update unchanged data
+# Read the documentation
+
+---
+class: center
+# Know your data
+# Do not update unchanged data
+# Read the documentation
+# Experiment
+
+---
+class: center
+# Know your data
+# Do not update unchanged data
+# Read the documentation
+# Experiment
+# Read the documentation again
 
 ---
 
