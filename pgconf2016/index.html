@@ -653,7 +653,7 @@ class: center
 
 # Updates
 
-More than one python scripts that collect data, use of intermediate tables.
+Python scripts collect data and need to write it fast.
 
 ???
 Async scripts - it's better to write everything in buffer fast at once to not loose incoming UDP packets.
@@ -960,12 +960,33 @@ class: center, middle
 # Do not update unchanged data
 
 ---
+class: center
+# Updates
 
-Comparison between update+insert, upsert.
+Batches by 100 000 records
+
+<br/>
+
+Python → COPY_FROM → UNLOGGED TABLE
+
+ < 200 ms
+
+<br/>
+
+UNLOGGED TABLE → LOGGED TABLE
+
+15 seconds
 
 ---
+class: center
 
-Trigram search
+# Search
+
+## pg_trgm
+
+GIN (name gin_trgm_ops)
+
+Over 106 mln unique domain names in a separate table
 
 ---
 class: center
