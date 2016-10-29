@@ -477,6 +477,11 @@ C collation, UTF8
 
 TODO: calculate
 
+# show lc_collate;
+ lc_collate
+-------------
+ en_US.UTF-8
+(1 row)
 
 ---
 class: center
@@ -986,7 +991,12 @@ class: center
 
 GIN (name gin_trgm_ops)
 
-Over 106 mln unique domain names in a separate table
+Over 106 mln unique domain names in a separate table (7GB of data, index: 4GB)
+
+???
+TODO: comparison between GIST and GIN
+
+Generalized Inverted Index
 
 ---
 class: center
