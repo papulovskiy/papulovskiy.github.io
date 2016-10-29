@@ -426,6 +426,34 @@ class: center
 ```
 ]
 
+---
+class: center
+
+# The Table
+
+.mcode[
+```
+CREATE TABLE rev (
+    ip INET PRIMARY KEY,
+    name TEXT
+);
+
+
+
+      Table "public.rev"
+
+
+   Column   | Type | Modifiers
+------------+------+-----------
+ ip         | inet | not null
+ name       | text |
+
+
+Indexes:
+    "rev_pkey" PRIMARY KEY, btree (ip)
+
+```]
+
 
 ---
 class: center
