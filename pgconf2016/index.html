@@ -45,6 +45,10 @@
           margin-right: auto;
           display: inline-block;
         }
+
+        .cloud img {
+          width: 100%;
+        }
     </style>
   </head>
   <body>
@@ -170,10 +174,17 @@ class: center
 The goal was to collect data and make it available for searching
 
 ---
+class: center
+# Cloud
+
+.cloud.image[![](cloud.png)]
+
+---
 
 class: center
 # Desktop hardware
 
+<!-- Dog! -->
 
 4 cores (8 threads) CPU<!--  @4GHz with 8MB L3 cache -->
 
@@ -213,6 +224,81 @@ Logarithmic scale just to make spinning disk visible
 title: SSD matters
 
 .diagram[![SSD IOPS comparison](assets/ssd_chart_linear.svg)]
+
+---
+class: center
+
+# Scenario #1
+### postgresql.org
+
+.mtable[
+|       ip        |          name           |
+|:----------------|---------------------------:|
+|63.246.23.139   | dominion.postgresql.org |
+|63.246.23.146   | lore.postgresql.org |
+|66.98.251.16    | svr5.postgresql.org |
+|66.98.251.159   | svr4.postgresql.org |
+|69.168.55.12    | buildfarm.postgresql.org |
+|87.238.57.226   | castal.postgresql.org |
+|87.238.57.232   | zetar.postgresql.org |
+|87.238.57.233   | styris.postgresql.org |
+|87.238.57.234   | atalia.postgresql.org |
+|174.143.35.130  | relva.postgresql.org |
+|174.143.35.244  | procyon.postgresql.org |
+|174.143.35.247  | secarus.postgresql.org |
+|199.119.121.84  | borg.postgresql.org |
+|199.119.121.86  | nausicaa.postgresql.org |
+]
+
+---
+class: center
+
+# Scenario #1
+### postgresql.org
+
+.mtable[
+|       ip        |          name           |
+|:----------------|---------------------------:|
+|63.246.23.139   | dominion.postgresql.org |
+|63.246.23.146   | lore.postgresql.org |
+|66.98.251.16    | svr5.postgresql.org |
+|66.98.251.159   | svr4.postgresql.org |
+|**69.168.55.12**    | buildfarm.postgresql.org |
+|87.238.57.226   | castal.postgresql.org |
+|87.238.57.232   | zetar.postgresql.org |
+|87.238.57.233   | styris.postgresql.org |
+|87.238.57.234   | atalia.postgresql.org |
+|174.143.35.130  | relva.postgresql.org |
+|174.143.35.244  | procyon.postgresql.org |
+|174.143.35.247  | secarus.postgresql.org |
+|199.119.121.84  | borg.postgresql.org |
+|199.119.121.86  | nausicaa.postgresql.org |
+]
+
+---
+class: center
+
+# Scenario #2
+### 69.168.55.0/24
+
+.mtable[
+|      ip       |           name            |
+|:--------------|-----------------------------:|
+|69.168.55.1   | router-55.colo.spiretech.com |
+|69.168.55.2   | 2.55.colo.spiretech.net |
+|69.168.55.3   | 3.55.colo.spiretech.net |
+|69.168.55.4   | 4.55.colo.spiretech.net |
+|69.168.55.5   | 5.55.colo.spiretech.net |
+|69.168.55.6   | 6.55.colo.spiretech.net |
+|69.168.55.7   | 7.55.colo.spiretech.net |
+|69.168.55.8   | 8.55.colo.spiretech.net |
+|69.168.55.9   | 9.55.colo.spiretech.net |
+|69.168.55.10  | 10.55.colo.spiretech.net |
+|69.168.55.11  | 11.55.colo.spiretech.net |
+|**69.168.55.12**  | buildfarm.postgresql.org |
+|69.168.55.13  | 13.55.colo.spiretech.net |
+|69.168.55.14  | 14.55.colo.spiretech.net |
+]
 
 ---
 class: center
