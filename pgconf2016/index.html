@@ -316,7 +316,7 @@ class: center
 |69.168.55.9   | 9.55.colo.spiretech.net |
 |69.168.55.10  | 10.55.colo.spiretech.net |
 |69.168.55.11  | 11.55.colo.spiretech.net |
-|**69.168.55.12**  | buildfarm.postgresql.org |
+|69.168.55.12  | buildfarm.postgresql.org |
 |69.168.55.13  | 13.55.colo.spiretech.net |
 |69.168.55.14  | 14.55.colo.spiretech.net |
 ]
@@ -324,11 +324,27 @@ class: center
 ---
 class: center
 
-# Scenario #1
+# The Table
+
+---
+class: center
+
+# The Table
+
+## ip
+
+---
+class: center
+
+# The Table
+
+## ip
+
+### INET
 
 .mcode[
 ```
-# SELECT ip, name FROM rev WHERE ip << '8.8.8.0/24';
+# SELECT * FROM rev WHERE ip << '8.8.8.0/24';
 
 
     ip    |             name
@@ -339,8 +355,77 @@ class: center
 
 ```]
 
-???
-Inet has range operator
+
+---
+class: center
+
+# The Table
+
+## ip
+
+### INET
+
+### PRIMARY KEY
+
+---
+class: center
+
+# The Table
+
+## name
+
+
+---
+class: center
+
+# The Table
+
+## name
+
+### VARCHAR(255)
+
+
+---
+class: center
+
+# The Table
+
+## name
+
+### TEXT
+
+---
+class: center
+
+# The Table
+
+## name
+
+### TEXT
+
+> The storage requirement for a short string (up to 126 bytes) is **1** byte plus the actual string, which includes the space padding in the case of character. Longer strings have **4** bytes of overhead instead of **1**.
+
+---
+class: center
+
+# The Table
+
+## name
+
+### TEXT
+
+# pg_column_size()
+
+.mcode[
+```
+       column        | pg_column_size
+---------------------+----------------
+ 000...000exactly120 |            121
+ 000...000exactly170 |            174
+(2 rows)
+```
+]
+
 
 ---
 class: center
@@ -523,39 +608,7 @@ CREATE INDEX rev_name_idx
 
 
 ---
-class: center
 
-# Documentation
-
-> The storage requirement for a short string (up to 126 bytes) is 1 byte plus the actual string, which includes the space padding in the case of character. Longer strings have 4 bytes of overhead instead of 1.
-
-???
-
-I read this and decided to split table to two different tables — to store long values separately.
----
-class: center
-
-# Documentation
-
-> The storage requirement for a short string (up to 126 bytes) is 1 byte plus the actual string, which includes the space padding in the case of character. Longer strings have 4 bytes of overhead instead of 1.
-
-# pg_column_size()
-
-.mcode[
-```
-       column        | pg_column_size
----------------------+----------------
- 000...000exactly120 |            121
- 000...000exactly170 |            174
-(2 rows)
-```
-]
-
-???
-
-12 minutes
-
----
 class: center
 
 # text_pattern_ops
