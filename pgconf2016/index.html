@@ -44,6 +44,10 @@
           padding-right: 30px;
         }
 
+        .mtable td:nth-last-child(1) {
+          padding-right: 0px;
+        }
+
         .mcode {
           text-align: left;
           margin-left: auto;
@@ -53,6 +57,18 @@
 
         .cloud img {
           width: 100%;
+        }
+
+        .pgexample1-1 tr:nth-child(5) {
+          font-weight: bold;
+          background-color: black;
+          color: white;
+        }
+
+        .pgexample1-2 tr:nth-child(12) {
+          font-weight: bold;
+          background-color: black;
+          color: white;
         }
     </style>
   </head>
@@ -99,7 +115,7 @@ class: center
 
 .mtable[
 | IP             | PTR             |
-|:---------------|:----------------|
+|:---------------|----------------:|
 | 173.1.57.105   | mysql1.uber.com |
 | 173.1.57.106   | mysql2.uber.com |
 | 173.1.57.107   | mongo1.uber.com |
@@ -117,7 +133,7 @@ class: center
 
 .mtable[
 | IP              | PTR                |
-|:----------------|:-------------------|
+|:----------------|-------------------:|
 | 5.9.96.242      | aspmx.l.google.com |
 | 8.19.180.13     | aspmx.l.google.com |
 | 23.246.203.2    | aspmx.l.google.com |
@@ -261,14 +277,14 @@ class: center
 # Scenario #1
 ### postgresql.org
 
-.mtable[
+.pgexample1-1.mtable[
 |       ip        |          name           |
 |:----------------|---------------------------:|
 |63.246.23.139   | dominion.postgresql.org |
 |63.246.23.146   | lore.postgresql.org |
 |66.98.251.16    | svr5.postgresql.org |
 |66.98.251.159   | svr4.postgresql.org |
-|**69.168.55.12**    | buildfarm.postgresql.org |
+|69.168.55.12    | buildfarm.postgresql.org |
 |87.238.57.226   | castal.postgresql.org |
 |87.238.57.232   | zetar.postgresql.org |
 |87.238.57.233   | styris.postgresql.org |
@@ -286,7 +302,7 @@ class: center
 # Scenario #2
 ### 69.168.55.0/24
 
-.mtable[
+.pgexample1-2.mtable[
 |      ip       |           name            |
 |:--------------|-----------------------------:|
 |69.168.55.1   | router-55.colo.spiretech.com |
