@@ -55,6 +55,8 @@ class: center, middle
 # A billion rows pet-project on a desktop hardware
 #### Alexey Papulovskiy
 
+<br/>
+
 PostgreSQL Conference Europe 2016
 
 Tallinn, Estonia
@@ -82,45 +84,6 @@ PTR - pointer to canonical name, used for determination of a domain name associa
 "Reverse" IP ordering to not to overload DNS-servers
 
 ---
-class: center
-# IP v4
-
-## 2<sup>32</sup>
-
-4 294 967 296 possible IP addresses
-
-3 702 258 432 non-reserved IP addresses
-
-1 294 913 005 addresses have pointer records
-
-???
-
-There are reserved blocks of IP addresses
-
----
-class: center
-
-# reverse.report
-
-### Database of pointer records for IPv4 addresses
-
-1 294 913 005 records
-
-100 GB of data
-
-100 GB of indexes
-
-&lt; 20 select requests per second
-
-~ 160 000 000 updates per day
-
-~ 2000 (adjusted) updates per second
-
-
-???
-
-The goal was to collect data and make it available for searching
-
 
 class: center
 # Why
@@ -165,7 +128,49 @@ class: center
 
 ???
 Impersonation
+
 ---
+class: center
+# IP v4
+
+## 2<sup>32</sup>
+
+4 294 967 296 possible IP addresses
+
+3 702 258 432 non-reserved IP addresses
+
+1 294 913 005 addresses have pointer records
+
+???
+
+There are reserved blocks of IP addresses
+
+---
+class: center
+
+# reverse.report
+
+### Database of pointer records for IPv4 addresses
+
+1 294 913 005 records
+
+100 GB of data
+
+100 GB of indexes
+
+&lt; 20 select requests per second
+
+~ 160 000 000 updates per day
+
+~ 2000 (adjusted) updates per second
+
+
+???
+
+The goal was to collect data and make it available for searching
+
+---
+
 class: center
 # Desktop hardware
 
