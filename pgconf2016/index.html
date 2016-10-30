@@ -70,6 +70,14 @@
           background-color: black;
           color: white;
         }
+
+        .mlist {
+          width: 50%;
+          font-size: 20pt;
+          text-align: left;
+          margin-left: auto;
+          margin-right: auto;
+        }
     </style>
   </head>
   <body>
@@ -537,6 +545,80 @@ class: center
 ]
 
 ---
+class: center, middle
+
+# COPY FROM STDIN
+
+---
+class: center, middle
+
+# CREATE TABLE new_data AS SELECT * FROM rev LIMIT 0;
+
+---
+class: center
+
+# Collecting data
+
+.mlist[
+* Buffer responses
+* Create intermediate table
+* COPY FROM STDIN
+* Rename intermediate table
+]
+
+---
+class: center
+
+# CLUSTER
+
+.left[
+> CLUSTER instructs PostgreSQL to cluster the table specified by **table_name** based on the index specified by **index_name**. When a table is clustered, it is physically reordered based on the index information.
+]
+
+.mcode[
+```
+# CLUSTER rev USING rev_pkey;
+```
+]
+
+???
+For selection by networks it's better to have close IPs closer to each other, so there will be less page fetches from disk.
+
+One-time operation, actually rewrites the table.
+
+What happens during update? PTRs a more or less "static", but they actually change and it's better to run cluster again (ACCESS EXCLUSIVE lock → stop updates, create a copy of the table, cluster it, swap tables) from time to time or to specify fillfactor.
+
+TODO: measure
+
+---
+
+class: center
+
+# The Table
+
+.mcode[
+```
+CREATE TABLE rev (
+    ip INET PRIMARY KEY,
+    name TEXT
+) WITH (
+    fillfactor=70
+);
+```]
+
+<br/>
+
+.mtable[
+| | |
+|:-|-:|
+| Original table | **100**GB |
+| Table with fill factor 70 | **130**GB |
+]
+
+
+
+
+---
 class: center
 
 # Scenario #2
@@ -673,29 +755,6 @@ store reversed strings
 
 Goal: keep everything as simple as possible, no sharding.
 
----
-class: center
-
-# CLUSTER
-
-.left[
-> CLUSTER instructs PostgreSQL to cluster the table specified by **table_name** based on the index specified by **index_name**. When a table is clustered, it is physically reordered based on the index information.
-]
-
-.mcode[
-```
-# CLUSTER rev USING rev_pkey;
-```
-]
-
-???
-For selection by networks it's better to have close IPs closer to each other, so there will be less page fetches from disk.
-
-One-time operation, actually rewrites the table.
-
-What happens during update? PTRs a more or less "static", but they actually change and it's better to run cluster again (ACCESS EXCLUSIVE lock → stop updates, create a copy of the table, cluster it, swap tables) from time to time or to specify fillfactor.
-
-TODO: measure
 ---
 
 class: center
