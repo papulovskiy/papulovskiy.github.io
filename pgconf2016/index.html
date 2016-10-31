@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <style>
         @import url(https://fonts.googleapis.com/css?family=Roboto);
+        @import url(https://fonts.googleapis.com/css?family=Roboto+Mono);
         body {
           font-family: 'Roboto';
           /*color: white;*/
@@ -77,6 +78,18 @@
           text-align: left;
           margin-left: auto;
           margin-right: auto;
+        }
+
+        .mlog {
+          text-align: left;
+          font-size: 10pt;
+        }
+
+        .mlog .alarm {
+          font-size: 14pt;
+          font-weight: bold;
+          color: #fff;
+          background-color: #000;
         }
     </style>
   </head>
@@ -616,97 +629,67 @@ CREATE TABLE rev (
 ]
 
 
+---
+class: center
 
+# Querying
+
+.mtable[
+| Index type | Size | Creation time |
+|------------|------|---------------|
+| btree | 68GB | 3.5h |
+| GIN(trigram_ops) | 46GB | 4.5h |
+
+]
+
+---
+
+Ran out of space, autovacuum
+New SSD
+Cloud screenshot
+Write amplification
+HOT updates, talk right now
+Do not update unchanged data
+TRIM
 
 ---
 class: center
 
-# Scenario #2
+# UNLOGGED tables
 
-.mcode[
-```
-# SELECT ip, name FROM rev WHERE name = 'postgresql.org'
-  OR name LIKE '%.postgresql.org' LIMIT 10;
+<div class="mlog" style="font-family: Roboto Mono">
+2016-10-31 08:36:54 UTC [24575-10]
+<br/>
+&nbsp;&nbsp;LOG:  server process (PID 24616) was <span class="alarm">terminated</span> by signal 9: <span class="alarm">Killed</span>
+<br/>
+<br/>
+2016-10-31 08:36:54 UTC [24575-11]
+<br/>
+&nbsp;&nbsp;DETAIL:  <span class="alarm">Failed</span> process was running: vacuum full rev_trgm;
+<br/>
+<br/>
+2016-10-31 08:36:54 UTC [24575-12]
+<br/>
+&nbsp;&nbsp;LOG:  <span class="alarm">terminating</span> any other active server processes
+<br/>
+<br/>
+2016-10-31 08:36:54 UTC [23332-1] reverse@reverse
+<br/>
+&nbsp;&nbsp;WARNING:  <span class="alarm">terminating</span> connection because of <span class="alarm">crash</span>
+<br/>
+&nbsp;&nbsp;of another server process
+<br/>
+<br/>
+2016-10-31 08:36:54 UTC [23332-2] reverse@reverse
+<br/>
+&nbsp;&nbsp;DETAIL:  The postmaster has commanded this server process to <span class="alarm">roll back</span> the current transaction and <span class="alarm">exit</span>, because another server process exited abnormally and possibly <span class="alarm">corrupted shared memory</span>.
+<br/>
+<br/>
+2016-10-31 08:36:54 UTC [23332-3] reverse@reverse
+<br/>
+&nbsp;&nbsp;HINT:  In a moment you should be able to reconnect to the database and repeat your command.
+</div>
 
-
-      ip       |         reverse
----------------+--------------------------
- 63.246.23.146 | lore.postgresql.org
- 66.98.251.16  | svr5.postgresql.org
- 66.98.251.159 | svr4.postgresql.org
- 69.168.55.12  | buildfarm.postgresql.org
- 87.238.57.226 | castal.postgresql.org
- 87.238.57.227 | feris.postgresql.org
- 87.238.57.228 | borka.postgresql.org
- 87.238.57.229 | magus.postgresql.org
- 87.238.57.230 | straleb.postgresql.org
- 87.238.57.231 | meldrar.postgresql.org
-(10 rows)
-
-```]
-
-???
-Not using btree index, store reversed or use index over reversed value.
-
----
-class: center
-
-# Scenario #2
-
-.mcode[
-```
-# SELECT ip, name FROM rev WHERE name = reverse('postgresql.org')
-  OR name LIKE reverse('%.postgresql.org') LIMIT 10;
-
-
-      ip       |           name
----------------+--------------------------
- 63.246.23.146 | gro.lqsergtsop.erol
- 66.98.251.16  | gro.lqsergtsop.5rvs
- 66.98.251.159 | gro.lqsergtsop.4rvs
- 69.168.55.12  | gro.lqsergtsop.mrafdliub
- 87.238.57.226 | gro.lqsergtsop.latsac
- 87.238.57.227 | gro.lqsergtsop.siref
- 87.238.57.228 | gro.lqsergtsop.akrob
- 87.238.57.229 | gro.lqsergtsop.sugam
- 87.238.57.230 | gro.lqsergtsop.belarts
- 87.238.57.231 | gro.lqsergtsop.rardlem
-(10 rows)
-
-
-```]
-
-???
-
----
-class: center
-
-# Scenario #2
-
-.mcode[
-```
-# SELECT ip, reverse(name) FROM rev WHERE name = reverse('postgresql.org')
-  OR name LIKE reverse('%.postgresql.org') LIMIT 10;
-
-
-      ip       |         reverse
----------------+--------------------------
- 63.246.23.146 | lore.postgresql.org
- 66.98.251.16  | svr5.postgresql.org
- 66.98.251.159 | svr4.postgresql.org
- 69.168.55.12  | buildfarm.postgresql.org
- 87.238.57.226 | castal.postgresql.org
- 87.238.57.227 | feris.postgresql.org
- 87.238.57.228 | borka.postgresql.org
- 87.238.57.229 | magus.postgresql.org
- 87.238.57.230 | straleb.postgresql.org
- 87.238.57.231 | meldrar.postgresql.org
-(10 rows)
-
-
-```]
-
-???
 ---
 class: center
 
