@@ -109,7 +109,7 @@
 name: Title
 class: center, middle
 
-# A billion rows pet-project on a desktop hardware
+# A billion rows pet-project<br/>on a desktop hardware
 #### Alexey Papulovskiy
 
 <br/>
@@ -125,9 +125,17 @@ https://remarkjs.com
 class: center
 # PTR
 
-### "Every Internet-reachable host should have a name"
+### "Every Internet-reachable host<br/>should have a name"
 
-8.8.4.4 → 4.4.8.8.in-addr.arpa → google-public-dns-b.google.com.
+8.8.4.4
+
+↓
+
+4.4.8.8.in-addr.arpa.
+
+↓
+
+google-public-dns-b.google.com.
 
 
 ???
@@ -190,13 +198,19 @@ Impersonation
 class: center
 # IP v4
 
-## 2<sup>32</sup>
 
-4 294 967 296 possible IP addresses
 
-3 702 258 432 non-reserved IP addresses
+## 4 294 967 296
 
-1 294 913 005 addresses have pointer records
+possible IP addresses
+
+## 3 702 258 432
+
+non-reserved IP addresses
+
+## 1 294 913 005
+
+addresses have pointer records
 
 ???
 
@@ -209,17 +223,15 @@ class: center
 
 ### Database of pointer records for IPv4 addresses
 
-1 294 913 005 records
 
-100 GB of data
+## 100 GB of data
 
-100 GB of indexes
+## 100 GB of indexes
 
 &lt; 20 select requests per second
 
 ~ 160 000 000 updates per day
 
-~ 2000 (adjusted) updates per second
 
 
 ???
@@ -666,6 +678,13 @@ TRIM
 ---
 class: center
 
+# Cloud
+
+.cloud.image[![](assets/CloudReverseLoad.png)]
+
+---
+class: center
+
 # UNLOGGED tables
 
 <div class="mlog" style="font-family: Roboto Mono">
@@ -701,6 +720,10 @@ class: center
 &nbsp;&nbsp;HINT:  In a moment you should be able to reconnect to the database and repeat your command.
 </div>
 
+---
+class: center, middle
+
+# An unlogged table is automatically truncated after a crash or unclean shutdown.
 ---
 class: center
 
