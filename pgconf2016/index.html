@@ -4,8 +4,8 @@
     <title>Title</title>
     <meta charset="utf-8">
     <style>
-        @import url(https://fonts.googleapis.com/css?family=Roboto);
-        @import url(https://fonts.googleapis.com/css?family=Roboto+Mono);
+        @import url(https://fonts.googleapis.com/css?family=Roboto:500);
+        @import url(https://fonts.googleapis.com/css?family=Roboto+Mono:500);
         body {
           font-family: 'Roboto';
           /*color: white;*/
@@ -85,11 +85,22 @@
           font-size: 10pt;
         }
 
-        .mlog .alarm {
-          font-size: 14pt;
+        .alarm {
+          font-size: 18pt;
           font-weight: bold;
           color: #fff;
           background-color: #000;
+        }
+
+        .mhighlight {
+          /*font-size: 18pt;*/
+          font-weight: bold;
+          color: #fff;
+          background-color: #000;
+        }
+
+        .remark-code-line {
+          font-family: 'Roboto Mono';
         }
     </style>
   </head>
@@ -513,22 +524,22 @@ class: center
 .mtable[
 | ip | name |
 |:---|-----:|
-| 1.0.5.**0**   | ip1.ip0.ip5.ip0.reverse.bigredgroup.net.au |
-| 1.0.5.**1**   | ip1.ip0.ip5.ip1.reverse.bigredgroup.net.au |
-| 1.0.5.**2**   | vlan50.hsrp.bigredgroup.net.au |
-| 1.0.5.**3**   | gi2_0_50.brg_mel01_7206.bigredgroup.net.au |
-| 1.0.5.**4**   | ip1.ip0.ip5.ip4.reverse.bigredgroup.net.au |
-| 1.0.5.**5**   | ns2.bigredgroup.net.au |
-| 1.0.5.**6**   | ip1.ip0.ip5.ip6.reverse.bigredgroup.net.au |
-| 1.0.5.**7**   | ip1.ip0.ip5.ip7.reverse.bigredgroup.net.au |
-| 1.0.5.**8**   | ip1.ip0.ip5.ip8.reverse.bigredgroup.net.au |
-| 1.0.5.**9**   | ip1.ip0.ip5.ip9.reverse.bigredgroup.net.au |
-| 1.0.5.**10**  | cloud.totalcloudservice.com.au |
-| 1.0.5.**11**  | ip1.ip0.ip5.ip11.reverse.bigredgroup.net.au |
-| 1.0.5.**12**  | ip1.ip0.ip5.ip12.reverse.bigredgroup.net.au |
-| 1.0.5.**13**  | remote.connective.com.au |
-| 1.0.5.**14**  | ip1.ip0.ip5.ip14.reverse.bigredgroup.net.au |
-| 1.0.5.**15**  | ip1.ip0.ip5.ip15.reverse.bigredgroup.net.au |
+| 1.0.5.<span class="mhighlight">0</span>   | ip1.ip0.ip5.ip0.reverse.bigredgroup.net.au |
+| 1.0.5.<span class="mhighlight">1</span>   | ip1.ip0.ip5.ip1.reverse.bigredgroup.net.au |
+| 1.0.5.<span class="mhighlight">2</span>   | vlan50.hsrp.bigredgroup.net.au |
+| 1.0.5.<span class="mhighlight">3</span>   | gi2_0_50.brg_mel01_7206.bigredgroup.net.au |
+| 1.0.5.<span class="mhighlight">4</span>   | ip1.ip0.ip5.ip4.reverse.bigredgroup.net.au |
+| 1.0.5.<span class="mhighlight">5</span>   | ns2.bigredgroup.net.au |
+| 1.0.5.<span class="mhighlight">6</span>   | ip1.ip0.ip5.ip6.reverse.bigredgroup.net.au |
+| 1.0.5.<span class="mhighlight">7</span>   | ip1.ip0.ip5.ip7.reverse.bigredgroup.net.au |
+| 1.0.5.<span class="mhighlight">8</span>   | ip1.ip0.ip5.ip8.reverse.bigredgroup.net.au |
+| 1.0.5.<span class="mhighlight">9</span>   | ip1.ip0.ip5.ip9.reverse.bigredgroup.net.au |
+| 1.0.5.<span class="mhighlight">10</span>  | cloud.totalcloudservice.com.au |
+| 1.0.5.<span class="mhighlight">11</span>  | ip1.ip0.ip5.ip11.reverse.bigredgroup.net.au |
+| 1.0.5.<span class="mhighlight">12</span>  | ip1.ip0.ip5.ip12.reverse.bigredgroup.net.au |
+| 1.0.5.<span class="mhighlight">13</span>  | remote.connective.com.au |
+| 1.0.5.<span class="mhighlight">14</span>  | ip1.ip0.ip5.ip14.reverse.bigredgroup.net.au |
+| 1.0.5.<span class="mhighlight">15</span>  | ip1.ip0.ip5.ip15.reverse.bigredgroup.net.au |
 ]
 
 ---
@@ -539,22 +550,22 @@ class: center
 .mtable[
 | ip | name |
 |:---|-----:|
-| **1**.0.5.0   | ip1.ip0.ip5.ip0.reverse.bigredgroup.net.au |
-| **2**.0.5.0   | anantes-651-1-54-net.w2-0.abo.wanadoo.fr |
-| **3**.0.5.0   | n003-000-000-000.static.ge.com |
-| **8**.0.5.0   | dns-8-0-5-0.atlanta1.level3.net |
-| **23**.0.5.0  | a23-0-5-0.deploy.static.akamaitechnologies.com |
-| **24**.0.5.0  | c-24-0-5-0.hsd1.nj.comcast.net |
-| **31**.0.5.0  | apn-31-0-5-0.dynamic.gprs.plus.pl |
-| **46**.0.5.0  | dynamicip-46-0-5-0.pppoe.samara.ertelecom.ru |
-| **50**.0.5.0  | 50-0-5-0.adsl-dhcp.cal.net |
-| **52**.0.5.0  | ec2-52-0-5-0.compute-1.amazonaws.com |
-| **58**.0.5.0  | ppp-net.infoweb.ne.jp |
-| **64**.0.5.0  | 64.0.5.0.ptr.us.xo.net |
-| **69**.0.5.0  | 69.0.5.0.adsl.snet.net |
-| **70**.0.5.0  | 70-0-5-0.pools.spcsdns.net |
-| **71**.0.5.0  | oh-71-0-5-0.dyn.embarqhsd.net |
-| **74**.0.5.0  | h-74-0-5-0.phla.pa.globalcapacity.com |
+| <span class="mhighlight">1</span>.0.5.0   | ip1.ip0.ip5.ip0.reverse.bigredgroup.net.au |
+| <span class="mhighlight">2</span>.0.5.0   | anantes-651-1-54-net.w2-0.abo.wanadoo.fr |
+| <span class="mhighlight">3</span>.0.5.0   | n003-000-000-000.static.ge.com |
+| <span class="mhighlight">8</span>.0.5.0   | dns-8-0-5-0.atlanta1.level3.net |
+| <span class="mhighlight">23</span>.0.5.0  | a23-0-5-0.deploy.static.akamaitechnologies.com |
+| <span class="mhighlight">24</span>.0.5.0  | c-24-0-5-0.hsd1.nj.comcast.net |
+| <span class="mhighlight">31</span>.0.5.0  | apn-31-0-5-0.dynamic.gprs.plus.pl |
+| <span class="mhighlight">46</span>.0.5.0  | dynamicip-46-0-5-0.pppoe.samara.ertelecom.ru |
+| <span class="mhighlight">50</span>.0.5.0  | 50-0-5-0.adsl-dhcp.cal.net |
+| <span class="mhighlight">52</span>.0.5.0  | ec2-52-0-5-0.compute-1.amazonaws.com |
+| <span class="mhighlight">58</span>.0.5.0  | ppp-net.infoweb.ne.jp |
+| <span class="mhighlight">64</span>.0.5.0  | 64.0.5.0.ptr.us.xo.net |
+| <span class="mhighlight">69</span>.0.5.0  | 69.0.5.0.adsl.snet.net |
+| <span class="mhighlight">70</span>.0.5.0  | 70-0-5-0.pools.spcsdns.net |
+| <span class="mhighlight">71</span>.0.5.0  | oh-71-0-5-0.dyn.embarqhsd.net |
+| <span class="mhighlight">74</span>.0.5.0  | h-74-0-5-0.phla.pa.globalcapacity.com |
 ]
 
 ---
