@@ -246,14 +246,16 @@ class: center
 
 ---
 
-class: center
+class: center, middle
 
 .cloud.image[![](assets/doghosting_small.png)]
 
 ---
 class: center
 # Desktop hardware
+.cloud.image[![](assets/hardware.gif)]
 
+???
 4 cores (8 threads) CPU<!--  @4GHz with 8MB L3 cache -->
 
 64GB non-ECC DDR4 RAM
@@ -265,9 +267,6 @@ class: center
 4TB Spinning disk
 
 500mbps internet connection
-
-???
-TODO: refine
 ---
 
 title: SSD matters
@@ -655,17 +654,49 @@ CREATE TABLE rev (
 ---
 class: center
 
-# Querying
+# Index everything
 
 .mtable[
 | Index type | Size | Creation time |
-|------------|------|---------------|
-| btree | 68GB | 3.5h |
-| GIN(trigram_ops) | 46GB | 4.5h |
-
+|:-----------|------|---------------|
+| btree |  68GB | 3.5h |
+| GIN(trigram_ops) |  46GB | 4.5h |
 ]
 
 ---
+class: center
+
+Date field
+
+---
+class: center
+
+Type alignment tests
+
+???
+
+At this point I didn't know that inet is a variable length field
+
+---
+class: center
+
+# The table
+
+.mcode[```
+                      Unlogged table "public.rev"
+   Column   | Type | Modifiers | Storage  | Stats target | Description
+------------+------+-----------+----------+--------------+-------------
+ ip         | inet | not null  | main     |              |
+ updated_at | date | not null  | plain    |              |
+ name       | text | not null  | extended |              |
+Indexes:
+    "rev_pkey" PRIMARY KEY, btree (ip) CLUSTER
+    "rev_u_name_vpo_idx" btree (name text_pattern_ops)
+Options: fillfactor=70
+```]
+---
+class: center
+
 
 Ran out of space, autovacuum
 New SSD
@@ -681,6 +712,17 @@ class: center
 # Cloud
 
 .cloud.image[![](assets/CloudReverseLoad.png)]
+
+---
+class: center
+
+# Write amplification
+
+---
+class: center, middle
+
+.cloud.image[![](assets/imadeitbetter.gif)]
+
 
 ---
 class: center
@@ -705,14 +747,12 @@ class: center
 <br/>
 2016-10-31 08:36:54 UTC [23332-1] reverse@reverse
 <br/>
-&nbsp;&nbsp;WARNING:  <span class="alarm">terminating</span> connection because of <span class="alarm">crash</span>
-<br/>
-&nbsp;&nbsp;of another server process
+&nbsp;&nbsp;WARNING:  <span class="alarm">terminating</span> connection because of <span class="alarm">crash</span> of another server process
 <br/>
 <br/>
 2016-10-31 08:36:54 UTC [23332-2] reverse@reverse
 <br/>
-&nbsp;&nbsp;DETAIL:  The postmaster has commanded this server process to <span class="alarm">roll back</span> the current transaction and <span class="alarm">exit</span>, because another server process exited abnormally and possibly <span class="alarm">corrupted shared memory</span>.
+&nbsp;&nbsp;DETAIL:  The postmaster has commanded this server process to <span class="alarm">roll back</span> the current<br/>&nbsp;&nbsp;transaction and <span class="alarm">exit</span>, because another server process exited abnormally and possibly<br/>&nbsp;&nbsp;<span class="alarm">corrupted shared memory</span>.
 <br/>
 <br/>
 2016-10-31 08:36:54 UTC [23332-3] reverse@reverse
@@ -1290,7 +1330,7 @@ What about HOT?
 ---
 class: center, middle
 
-# Do not update unchanged data
+# Do not update<br/>unchanged data
 
 ---
 class: center
