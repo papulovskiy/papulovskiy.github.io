@@ -102,6 +102,15 @@
         .remark-code-line {
           font-family: 'Roboto Mono';
         }
+
+        .mdocumentation {
+          text-align: left;
+          border-color: #DBDBCC;
+          border-radius: 8px;
+          background-color: #EEEEDD;
+          padding: 14px;
+          display: block;
+        }
     </style>
   </head>
   <body>
@@ -120,6 +129,14 @@ Tallinn, Estonia
 
 ???
 https://remarkjs.com
+
+---
+class: center
+# Hello
+<br/>
+<br/>
+### @papulovskiy
+### a@c17.nl
 
 ---
 class: center
@@ -237,6 +254,11 @@ class: center
 ???
 
 The goal was to collect data and make it available for searching
+
+---
+class: center, middle
+
+.cloud.image[![](assets/development.gif)]
 
 ---
 class: center
@@ -449,7 +471,7 @@ class: center
 
 ### TEXT
 
-> The storage requirement for a short string (up to 126 bytes) is **1** byte plus the actual string, which includes the space padding in the case of character. Longer strings have **4** bytes of overhead instead of **1**.
+.mdocumentation[The storage requirement for a short string (up to 126 bytes) is **1** byte plus the actual string, which includes the space padding in the case of character. Longer strings have **4** bytes of overhead instead of **1**.]
 
 ---
 class: center
@@ -606,8 +628,8 @@ class: center
 
 # CLUSTER
 
-.left[
-> CLUSTER instructs PostgreSQL to cluster the table specified by **table_name** based on the index specified by **index_name**. When a table is clustered, it is physically reordered based on the index information.
+.mdocumentation[
+CLUSTER instructs PostgreSQL to cluster the table specified by **table_name** based on the index specified by **index_name**. When a table is clustered, it is physically reordered based on the index information.
 ]
 
 .mcode[
@@ -763,7 +785,9 @@ class: center
 ---
 class: center, middle
 
-# An unlogged table is automatically truncated after a crash or unclean shutdown.
+.mdocumentation[
+An unlogged table is automatically truncated after a crash or unclean shutdown.
+]
 ---
 class: center
 
