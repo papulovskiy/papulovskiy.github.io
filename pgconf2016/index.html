@@ -730,16 +730,147 @@ class: center
 ---
 class: center
 
-Date field
+# Tracking updates
+
+.mcode[
+```
+ALTER TABLE rev ADD COLUMN updated_at DATE;
+```
+]
+
+<br/>
+
+.mtable[
+| ip | name | updated_at |
+|:------|:---------|:------|
+| fixed | variable | fixed |
+]
+
+???
+It's better to store all fixed values first, but why?
+
+Experiment with mentioned table structure.
 
 ---
 class: center
 
-Type alignment tests
+# Type alignment
+
+<br/>
+
+.mtable[
+| ip | name | updated_at |
+|:------|:---------|:------|
+| fixed | variable | fixed |
+]
+
+<br/>
+
+.mtable[
+| ip | updated_at | name |
+|:------|:---------|:------|
+| fixed | fixed | variable |
+]
+
+
+---
+class: center
+
+# Inserts
+
+<br/>
+
+.mtable[
+| ip | name | updated_at |
+|:------|:---------|:------|
+| fixed | variable | fixed |
+]
+
+<br/>
+
+.mtable[
+| ip | updated_at | name |
+|:------|:---------|:------|
+| fixed | fixed | variable |
+]
+
+# No winner
+
+
+---
+class: center
+
+# Seq scan by ip
+
+<br/>
+
+.mtable[
+| ip | name | updated_at |
+|:------|:---------|:------|
+| .mhighlight[fixed] | variable | fixed |
+]
+
+<br/>
+
+.mtable[
+| ip | updated_at | name |
+|:------|:---------|:------|
+| .mhighlight[fixed] | fixed | variable |
+]
+
+# No winner
+Results within measurement error.
+
+---
+class: center
+
+# Seq scan by updated_at
+
+<br/>
+
+.mtable[
+| ip | name | updated_at |
+|:------|:---------|:------|
+| fixed | variable | .mhighlight[fixed] |
+]
+
+<br/>
+
+.mtable[
+| ip | updated_at | name |
+|:------|:---------|:------|
+| fixed | .mhighlight[fixed] | variable |
+]
+
+### Second option is about 9% faster<sup>*</sup>
+
+<sup>*</sup> Don't trust me
 
 ???
 
 At this point I didn't know that inet is a variable length field
+
+
+
+---
+
+class: center
+
+# The Table
+
+.mcode[
+```
+CREATE TABLE rev (
+    ip INET PRIMARY KEY,
+    updated_at DATE,
+    name TEXT
+) WITH (
+    fillfactor=70
+);
+
+CREATE INDEX rev_name_idx
+    ON rev (name varchar_pattern_ops);
+```]
 
 ---
 class: center
@@ -949,144 +1080,6 @@ CREATE TABLE rev (
 
 CREATE INDEX rev_name_idx
     ON rev (name text_pattern_ops);
-```]
-
----
-class: center
-
-# Tracking updates
-
-.mcode[
-```
-ALTER TABLE rev ADD COLUMN updated_at DATE;
-```
-]
-
-<br/>
-
-.mtable[
-| ip | name | updated_at |
-|:------|:---------|:------|
-| fixed | variable | fixed |
-]
-
-???
-It's better to store all fixed values first, but why?
-
-Experiment with mentioned table structure.
-
----
-class: center
-
-# Type alignment
-
-<br/>
-
-.mtable[
-| ip | name | updated_at |
-|:------|:---------|:------|
-| fixed | variable | fixed |
-]
-
-<br/>
-
-.mtable[
-| ip | updated_at | name |
-|:------|:---------|:------|
-| fixed | fixed | variable |
-]
-
-
----
-class: center
-
-# Inserts
-
-<br/>
-
-.mtable[
-| ip | name | updated_at |
-|:------|:---------|:------|
-| fixed | variable | fixed |
-]
-
-<br/>
-
-.mtable[
-| ip | updated_at | name |
-|:------|:---------|:------|
-| fixed | fixed | variable |
-]
-
-# No winner
-
-
----
-class: center
-
-# Seq scan by ip
-
-<br/>
-
-.mtable[
-| ip | name | updated_at |
-|:------|:---------|:------|
-| **fixed** | variable | fixed |
-]
-
-<br/>
-
-.mtable[
-| ip | updated_at | name |
-|:------|:---------|:------|
-| **fixed** | fixed | variable |
-]
-
-# No winner
-Results within measurement error.
-
----
-class: center
-
-# Seq scan by updated_at
-
-<br/>
-
-.mtable[
-| ip | name | updated_at |
-|:------|:---------|:------|
-| fixed | variable | **fixed** |
-]
-
-<br/>
-
-.mtable[
-| ip | updated_at | name |
-|:------|:---------|:------|
-| fixed | **fixed** | variable |
-]
-
-### Second option is about 9% faster
-
-
----
-
-class: center
-
-# The Table
-
-.mcode[
-```
-CREATE TABLE rev (
-    ip INET PRIMARY KEY,
-    updated_at DATE,
-    name TEXT
-) WITH (
-    fillfactor=70
-);
-
-CREATE INDEX rev_name_idx
-    ON rev (name varchar_pattern_ops);
 ```]
 
 ---
