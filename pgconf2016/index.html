@@ -862,14 +862,14 @@ class: center
 ```
 CREATE TABLE rev (
     ip INET PRIMARY KEY,
-    updated_at DATE,
-    name TEXT
+    updated_at DATE NOT NULL,
+    name TEXT NOT NULL
 ) WITH (
     fillfactor=70
 );
 
 CREATE INDEX rev_name_idx
-    ON rev (name varchar_pattern_ops);
+    ON rev (name text_pattern_ops);
 ```]
 
 ---
@@ -889,6 +889,15 @@ Indexes:
     "rev_u_name_vpo_idx" btree (name text_pattern_ops)
 Options: fillfactor=70
 ```]
+
+---
+class: center, middle
+
+.mheightimg.image[![](assets/outofspace.jpg)]
+
+???
+https://makeameme.org/meme/why-do-we-kxg8hy
+
 ---
 class: center
 
