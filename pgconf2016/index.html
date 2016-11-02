@@ -38,6 +38,7 @@
         }
         .mtable th {
           border-bottom:1px solid #333333;
+          padding-right: 30px;
           /*padding-right: 10px;*/
         }
 
@@ -45,7 +46,7 @@
           padding-right: 30px;
         }
 
-        .mtable td:nth-last-child(1) {
+        .mtable td:nth-last-child(1), .mtable th:nth-last-child(1) {
           padding-right: 0px;
         }
 
@@ -707,10 +708,10 @@ CREATE TABLE rev (
 <br/>
 
 .mtable[
-| | |
-|:-|-:|
-| Original table | **100**GB |
-| Table with fill factor 70 | **130**GB |
+| Fill factor | Table size|
+|-:|-:|
+| 100 | **100**GB |
+| 70 | **130**GB |
 ]
 
 
