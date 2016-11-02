@@ -60,6 +60,10 @@
           width: 100%;
         }
 
+        .mheightimg img {
+          height: 100%;
+        }
+
         .pgexample1-1 tr:nth-child(5) {
           font-weight: bold;
           background-color: black;
@@ -115,7 +119,13 @@
         .remark-slide-number {
           display: none;
         }
+
+        .twitter-tweet {
+          margin-left: auto;
+          margin-right: auto;
+        }
     </style>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
   </head>
   <body>
     <textarea id="source">
@@ -141,6 +151,20 @@ class: center
 <br/>
 ### @papulovskiy
 ### a@c17.nl
+---
+class: center, middle
+.mheightimg.image[![](assets/captain.jpg)]
+
+???
+https://twitter.com/moebio/status/793546477289123841
+
+---
+class: center, middle
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">I&#39;m pretty sure Postgres has already solved most of my problems, I just haven&#39;t made it to that part of the documentation yet.</p>&mdash; Pauley D. (@piisalie) <a href="https://twitter.com/piisalie/status/708320089280352257">March 11, 2016</a></blockquote>
+
+???
+https://twitter.com/piisalie/status/708320089280352257
 
 ---
 class: center
@@ -264,11 +288,17 @@ class: center, middle
 
 .cloud.image[![](assets/development.gif)]
 
+???
+http://devopsreactions.tumblr.com/post/142784601212/our-development-process
+
 ---
 class: center
 # Cloud
 
 .cloud.image[![](assets/cloud.png)]
+
+???
+https://www.digitalocean.com/pricing/
 
 ---
 
@@ -476,6 +506,13 @@ class: center
 ### TEXT
 
 .mdocumentation[The storage requirement for a short string (up to 126 bytes) is **1** byte plus the actual string, which includes the space padding in the case of character. Longer strings have **4** bytes of overhead instead of **1**.]
+
+---
+class: center
+
+## Domain name length distribution
+
+.diagram[![](assets/lengthdistribution.svg)]
 
 ---
 class: center
@@ -749,6 +786,9 @@ class: center, middle
 
 .cloud.image[![](assets/imadeitbetter.gif)]
 
+???
+
+http://devopsreactions.tumblr.com/post/149120401826/major-change-request-1-day-before-the-release
 
 ---
 class: center
