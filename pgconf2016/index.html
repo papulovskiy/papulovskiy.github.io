@@ -855,6 +855,15 @@ CREATE TABLE rev (
 | 70 | **130**GB |
 ]
 
+---
+class: center, middle
+
+.mcode[```
+SELECT * FROM rev WHERE name LIKE '%.postgresql.org';
+```]
+
+???
+This query won't use btree index.
 
 ---
 class: center
@@ -867,6 +876,12 @@ class: center
 | btree(name) |  68GB | 3.5h | tens of seconds |
 | gin(name gin_trgm_ops) |  46GB | 4.5h | seconds |
 | btree(name text_pattern_ops) |  68GB | 3.5h | miliseconds |
+]
+
+<br/>
+
+.mdocumentation[
+The difference from the default operator classes is that the values are compared strictly character by character rather than according to the locale-specific collation rules.
 ]
 
 
@@ -889,6 +904,7 @@ CREATE TABLE rev (
 CREATE INDEX rev_name_idx
     ON rev (name text_pattern_ops);
 ```]
+
 
 ---
 class: center
@@ -1287,8 +1303,6 @@ class: center
 
 # Pain
 
-### PG 9.6
-
 .mcode[```
 reverse=# VACUUM ANALYZE rev;
 VACUUM
@@ -1321,7 +1335,6 @@ sys     0m36.552s
 
 ???
 Backup takes 25 minutes, restore takes 5 hours (or 12 on cloud).
-
 ---
 class: center
 # Know your data
@@ -1352,6 +1365,19 @@ class: center
 # Experiment
 # Read the documentation again
 
+---
+class: center, middle
+
+.cloud.image[![](assets/sourcecode.gif)]
+
+???
+When I read the source code for the PostgreSQL query optimizer
+http://dbareactions.com/post/149660624924/when-i-read-the-source-code-for-the-postgresql
+
+---
+class: center, middle
+
+# Questions?
 
     </textarea>
     <script src="assets/remark-latest.min.js">
