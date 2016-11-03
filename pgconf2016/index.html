@@ -329,11 +329,14 @@ class: center
 
 # Desktop software
 
-Ubuntu 16.04
+### Ubuntu 16.04
 
-LXC
+### LXC
 
-PostgreSQL 9.5, 9.6
+### PostgreSQL 9.5, 9.6
+
+???
+Completely non-enterprise
 
 ---
 
@@ -858,12 +861,43 @@ CREATE TABLE rev (
 ---
 class: center, middle
 
-.mcode[```
-SELECT * FROM rev WHERE name LIKE '%.postgresql.org';
-```]
+
+### SELECT * FROM rev WHERE <br/> name LIKE '%.postgresql.org';
+
 
 ???
 This query won't use btree index.
+
+---
+class: center
+
+.mtable[
+| ip     | updated_at |                      name                        |
+|:---------|------------|:------------------------------------------------ |
+| 1.0.1.44  | 2016-10-25 | tsohlacol |
+| 1.0.1.166 | 2016-08-05 | nc.enilno.ydobyna |
+| 1.0.2.91  | 2016-08-26 | no.tcerider.rorre |
+| 1.0.2.182 | 2016-08-06 | tsohlacol |
+| 1.0.4.0   | 2016-10-21 | ua.ten.puorgdergib.esrever.0pi.4pi.0pi.1pi |
+| 1.0.4.1   | 2016-10-29 | ua.ten.puorgdergib.6027_10lem_grb.0pool |
+| 1.0.4.2   | 2016-10-29 | ua.ten.puorgdergib.esrever.6027_20lem_grb.0pool |
+| 1.0.4.3   | 2016-10-29 | ua.ten.puorgdergib.esrever.3pi.4pi.0pi.1pi |
+| 1.0.4.4   | 2016-10-29 | ua.ten.puorgdergib.1sn |
+| 1.0.4.5   | 2016-10-29 | ua.ten.puorgdergib.esrever.5pi.4pi.0pi.1pi |
+| 1.0.4.6   | 2016-10-29 | ua.ten.puorgdergib.esrever.6pi.4pi.0pi.1pi |
+| 1.0.4.7   | 2016-10-21 | ua.ten.puorgdergib.esrever.7pi.4pi.0pi.1pi |
+| 1.0.4.8   | 2016-10-29 | ua.ten.puorgdergib.esrever.8pi.4pi.0pi.1pi |
+| 1.0.4.9   | 2016-10-29 | ua.ten.puorgdergib.esrever.9pi.4pi.0pi.1pi |
+| 1.0.4.10  | 2016-10-29 | ua.ten.puorgdergib.6027_10lem_grb.01_0_2ig |
+| 1.0.4.11  | 2016-10-29 | ua.ten.puorgdergib.6027_10dys_grb.01_0_2ig |
+| 1.0.4.12  | 2016-10-29 | ua.ten.puorgdergib.6027_20dys_grb.01_0_2ig |
+| 1.0.4.13  | 2016-10-29 | ua.ten.puorgdergib.esrever.31pi.4pi.0pi.1pi |
+| 1.0.4.14  | 2016-10-30 | ua.ten.puorgdergib.esrever.41pi.4pi.0pi.1pi |
+| 1.0.4.15  | 2016-10-21 | ua.ten.puorgdergib.esrever.51pi.4pi.0pi.1pi |
+]
+
+???
+This query is without order so it shows effect of CLUSTER command and reversed names.
 
 ---
 class: center
@@ -884,6 +918,8 @@ class: center
 The difference from the default operator classes is that the values are compared strictly character by character rather than according to the locale-specific collation rules.
 ]
 
+???
+The operator classes text_pattern_ops, varchar_pattern_ops, and bpchar_pattern_ops support B-tree indexes on the types text, varchar, and char respectively.
 
 ---
 
