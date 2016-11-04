@@ -1,0 +1,124 @@
+Hello, my name is Alexey Papulovskiy, I'm a developer at Booking.com, Amsterdam. We at Booking almost not using PostgreSQL, just a couple of small installations, so I want to tell you about my personal pet-project.
+
+Feel free to reach me on Twitter or to just drop an email if you have any questions.  This talk is mostly entertaining, please don't expect much useful information, I'm going to describe just some of my learnings, most of them migth be pretty obvious.
+
+One of these learnings is about documentation. I'd like to quote some guy from the internet, he wrote once: "I'm pretty sure PostgreSQL has already solved most of my problems, I just haven't made it to that part of the documentation yet."
+
+Some time ago I read an article about Open Source Intelligence and got an idea of making a database of pointer records, at least to bate my own curiosity and at most to make something useful out of it.
+
+For people who don't know what PTR is, I'd like to explain a little bit. PTR or pointer record is a type of DNS record that points to a canonical domain for a given IP address, it is so-called "reverse lookup". RFC1912 states that "Every Internet-reachable host should have a name" and that "For every IP address, there should be a matching PTR record...". Not standard.
+
+How it works. When I type a command "host 8.8.4.4" it sends DNS request to a resolver querying pointer record named "4.4.8.8.in-addr.arpa" and it gets "google-public-dns-b.google.com." back as a result.
+
+Why might it be interesting to look into pointer records? Let's take one example. Many companies unintendedly expose information about their infrastructure, that does not mean that a security researcher actually can connect to Uber's MySQL or MongoDB server, but it probably gives him or her a knowledge on where to look once he gets into their network.
+
+It also allows finding cases of impersonation, for example, these IP addresses are not related to Google, but poorly configured mail exchange servers might consider these as Gmail and trust spam sent from these servers.
+
+I decided to focus only on IP v4 because it would be much more time consuming to try to brute force all possible IP v6 addresses. As we all know there are only about 4.3 billion possible IP v4 addresses and only about 3.7 billion are in a non-reserved state, so it reduces my job a little bit. During this project, I found that actually only 1.3 billion of addresses have pointer records, that helps.
+
+The project is called "reverse.report" and "report" is an actual Top-Level Domain, thanks to ICANN (eye-kan) new gTLDs program.
+
+Right now the project uses about 130GB disk space for data, 100GB for indexes, in peak it served about 20 select requests per second and update rate is about 160 million of records per day, that makes about adjusted 2000 updates per second.
+
+I have to confess. As a developer and probably as many other developers, I do overengineer sometimes. Or often. When I see such numbers, like millions, billions, hundreds of gigabytes, I really want to make something complex and complicated, I start to think about spinning up a dozen of boxes, about partitioning data over that servers. What should I choose as a partitioning key first octet of IP, but in that case I get non-equal distribution because of reserved ranges, or I should take the last octet, it seems to be better distributed, but who knows, I need to calculate a distribution of last octets for records I can collect. STOP!
+Don't do that! Keep it simple. Like really simple. It's just an IP and some string, there are not too many of them, all this data can fit into a memory of the modern mobile phone.
+
+Ok, I have only one instance, so why desktop? Because this project is mostly like a research project, the desktop is a bit more flexible than a dedicated server (it took only 15 minutes to add a new SSD drive) and much cheaper than almost any cloud. And the project does not have any reliability requirements.
+Of course, I won't host a commercial service near a dog, unfortunately, the dog didn't come with me this time.
+
+The server has already not so modern desktop CPU, 64 GB of non-ECC RAM, half-terabyte NVMe SSD, after a couple of weeks after start, I had to add 1TB SATA SSD, and 500 Mbps fiber-optic internet connection, thanks to the Netherlands.
+
+-- 6 min
+
+Why SSD. You know, I think I missed a revolution in storage. I knew that SSDs are faster than spinning disks, much faster, but I decided to measure IO performance by myself, just to get a sense of difference. Of course, these tests are kind of "dirty", you should not trust absolute numbers I got, but it clearly shows the trend. I ran Linux fio tool with mixed load: 75% reads, 25% writes and I put results on a logarithmic scale just to show the spinning disk because with a linear scale I don't see it anymore.
+
+Let's describe some usage scenarios. As a researcher, I want to be able to discover all IP addresses that have pointer record within some domain, 'postgresql.org' for example. I got a list of IP addresses with pointer records containing 'postgresql.org' like 'dominion.postgresql.org' or 'buildfarm.postgresql.org'. Next scenario is when I want to check neighbors of 'buildfarm' server and now I could tell it's very likely that buildfarm.postgresql.org is a colocation server at Spiretech, Portland, Oregon. Of course, there are a lot of different ways to get the same information, but it was just one example.
+
+Let's build a table.
+
+
+
+I have only two things to store: IP address and the corresponding canonical name, PostgreSQL has very suitable data type for IP addresses called 'inet', it allows to run IP range queries in a very convenient way, that solves second usage scenario. The only disadvantage of this type is a storage overhead: it's capable of storing network mask and it takes 7 bytes and additional one byte for type alignment (inet requires int alignment, 4 bytes) -- CLARIFY. I started to care about single bytes when I made an estimation that 3.7 billion of potential records could cause additional 14 GB of disk space used. It's not a big deal, but less written bytes could prolong SSDs lifespan. Another option is to use int type because IPv4 is basically int4, unfortunately, PostgreSQL does not support unsigned integer and that means a requirement of some additional work on the application side.
+
+There is no rule or standard to have only one PTR per host, however, it's a common practice, so I can define my IP field as a primary key.
+
+How to store the actual results, domain names? The pretty obvious answer is to use VARCHAR(255) or TEXT because the domain name length is strictly limited by a standard. I went to check the documentation and, as there is almost no difference, why not to use TEXT, to avoid additional length check and to get an ability of spotting anomalies or inconsistencies in somebody's DNS configuration?
+
+I also spotted a statement in the documentation, that short strings require only one byte of storage overhead, long strings require 4 bytes of overhead. I still want to save some bytes and keeping only short strings would save up to 14 GB, because I got an assumption that by string the documentation means field, not the actual value. Maybe it's just my misunderstanding, but I started to think how I would split data between two different tables, one for short string, another for long. I checked the data, names length distribution after initial run and found that actually not a lot of records are longer that 126 bytes, so "long" table would not be big. What a relief.
+
+But something kept bugging me. If I so data-driven, why not to find how much space the actual values require to store. There I found that PostgreSQL is smarter than me and the documentation meant exactly the stored value by string, not a field, so there is nothing needs to be done and I'd go with just TEXT field.
+The table is now almost complete, it has two fields: IP and name and looks pretty good to me. One scenario is still not solved.
+
+-- 11 min
+
+Now it's time to get some data.
+
+I wrote a very simple python script that asynchronously sends requests and collects responses from DNS resolvers. That time I found that my home router cannot handle more than 50 thousand packets per second and my dedicated server at a rate higher than 5 thousand packets per second triggers a DDoS alarm and hosting company null-routes all incoming traffic trying to protect my server, so 5 thousand requests per second is a sufficient performance for me.
+
+The very first and naive thought I had was to iterate over IP addresses in a natural order, incrementing last octet and third octet when it necessary, and so on. However, with that approach, authoritative DNS servers might receive quite a lot of my requests at once and I don't think it would make them happy serving a few thousand requests per second. The second thought was about inverted increments where the script goes other way around: increments first octet and if necessary second and so on.
+
+The idea of making a database request every time the script gets a DNS response made me feel like it has a great chance to miss an incoming packet while waiting for database communication and it's definitely not the fastest way of importing data to PostgreSQL. The script buffers responses in memory and needs to flush buffer from time to time.
+
+COPY FROM to the rescue. With copy from you can easily insert large amounts of data to the database, but what happens when you already have existing records in the table, and this is the case because crawlers are running in a loop and start querying IP addresses again from 0.0.0.0 to refine stored values. In that case, I could use an intermediate table, fill it with new data and later apply that data to the main table by a separate process.
+
+It reduces the database read consistency, but with almost weekly update cycle, few minutes of delay in updating do not really matter.
+As there more than one crawler, to prevent table name conflicts they should be using a sequence (now they are not, but they are using different suffixes).
+
+-- 14
+
+TODO: upsert or insert
+
+At this point I got a table where all records are spread over the whole table almost randomly, therefore a use case with selecting IP addresses by network might cause up to 256 page fetches from disk in case of /24 networks. It looks like an unnecessary work and PostgreSQL has a solution for that.
+
+CLUSTER physically rearranges table data by index or sort order and in a worst case when all records for certain /24 network exist in the database, it would fetch only a few pages at most. After CLUSTER I have a perfectly sorted table, but what happens with new results? Pointer records are almost "static" data, but they also change from time to time, so new records won't be in a designated place, they will be added somewhere to the end of the table.
+
+Also, CLUSTER is a one-time operation that makes a copy of the table and requires ACCESS EXCLUSIVE LOCK, preventing writes and reads from that table, so reclustering is going to be a painful operation, when you have to stop updates, create a copy of the table, cluster it, swap tables, resume updates. That's quite a process.
+
+To postpone reclustering PostgreSQL provides an option called fillfactor, basically, you can define what part of the page will be filled with data and another part of the page will be used for updates. In that case, when an update happens, a new record (tuple) will be placed on the same page. Of course, it's not free: original table consumed 100GB of disk space, a table with fill factor 70 consumes 130 GB of disk space.
+
+--  16
+
+Imagine, this is me. This is a puddle and then I screw up. Something like that happened this Monday when I found I no longer have my precious billions of rows in a database. Because, when I was playing with performance difference measurement of logged and unlogged tables, I changed my main table to unlogged and on Monday I saw that in a log.
+
+Selecting by subdomains.
+Comparison of trigram and btree, text_pattern_ops
+Reverse storage, index over function
+PG96 forces parallel seq scan instead of index
+reverse=# create index rev_trgm_gin_idx on rev_trgm using gin (name gin_trgm_ops);
+CREATE INDEX
+Time: 16267444.772 ms
+
+reverse=# create index rev_regularvc_name_idx on rev_regularvc (name);
+CREATE INDEX
+Time: 12709215.661 ms
+
+
+adding date
+data types alignment
+
+Aaaand. I ran out of disk space.
+VACUUM
+Write amplification
+
+
+DNS A, CNAME
+Recursive CTE
+
+
+
+Conclusion, summary
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
